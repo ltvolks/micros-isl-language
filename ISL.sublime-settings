@@ -6,7 +6,7 @@
     "ensure_newline_at_eof_on_save": true,
     "rulers": [78],
 
-    // Directory holding isl_fmt.py / isl_lint.py. Empty = the copy bundled in this package.
+    // Directory holding isl.py. Empty = the copy bundled in this package.
     "isl_tools_path": "",
     "isl_python": "python3",
     // Run "ISL: Format" automatically before each save

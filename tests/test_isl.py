@@ -1,4 +1,4 @@
-"""Tests for tools/isl_fmt.py and tools/isl_lint.py."""
+"""Tests for tools/isl.py."""
 
 import sys
 from pathlib import Path
@@ -7,8 +7,7 @@ import pytest
 
 ROOT = Path(__file__).parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
-import isl_fmt  # noqa: E402
-import isl_lint  # noqa: E402
+import isl  # noqa: E402
 
 ISL_FILES = sorted((ROOT / 'tests' / 'fixtures').glob('*.isl'))
 
@@ -16,7 +15,7 @@ BANNER = '// ' + '*' * 40
 
 
 def codes(src):
-    return [d.code for d in isl_lint.lint_source(src)]
+    return [d.code for d in isl.lint_source(src)]
 
 
 def tokens(text):
@@ -25,47 +24,47 @@ def tokens(text):
 
 def test_indents_blocks_two_spaces():
     src = 'event inq : 1 // x\nif a\nb = 1\nelseif c\nd = 2\nelse\ne = 3\nendif\nendevent\n'
-    assert isl_fmt.format_source(src) == (
+    assert isl.format_source(src) == (
         'event inq : 1 // x\n  if a\n    b = 1\n  elseif c\n    d = 2\n  else\n    e = 3\n  endif\nendevent\n'
     )
 
 
 def test_indent_option_and_tabs_replaced():
     src = 'sub s\n\tfor i = 1 to 2\n\t\tx = i\n\tendfor\nendsub\n'
-    out = isl_fmt.format_source(src, indent=4)
+    out = isl.format_source(src, indent=4)
     assert out == 'sub s\n    for i = 1 to 2\n        x = i\n    endfor\nendsub\n'
 
 
 def test_forever_closed_by_endfor_and_startprint():
     src = 'sub s\nforever\nbreak\nendfor\nstartprint\nprintline "a"\nendprint\nendsub\n'
-    out = isl_fmt.format_source(src)
+    out = isl.format_source(src)
     assert '  forever\n    break\n  endfor\n  startprint\n    printline "a"\n  endprint\n' in out
     assert codes(src).count('L002') == 0
 
 
 def test_comments_and_strings_untouched():
     src = 'event init\nerrormessage "if endif // not a comment"  // if\nendevent\n'
-    out = isl_fmt.format_source(src)
+    out = isl.format_source(src)
     assert '  errormessage "if endif // not a comment"  // if\n' in out
 
 
 def test_continuation_keeps_relative_indent():
     src = 'event init\nerrormessage "a", \\\n      "b"\nendevent\n'
-    out = isl_fmt.format_source(src)
+    out = isl.format_source(src)
     # level 1 (2 spaces) + the original 6-space offset from the first line
     assert out == 'event init\n  errormessage "a", \\\n' + ' ' * 8 + '"b"\nendevent\n'
 
 
 def test_blank_lines_collapsed_and_trailing_space_stripped():
-    out = isl_fmt.format_source('\n\na = 1   \n\n\n\n\nb = 2\n')
+    out = isl.format_source('\n\na = 1   \n\n\n\n\nb = 2\n')
     assert out == 'a = 1\n\n\nb = 2\n'
 
 
 @pytest.mark.parametrize('path', ISL_FILES, ids=lambda p: p.name)
 def test_format_idempotent_and_token_preserving(path):
     src = path.read_text(encoding='utf-8', errors='replace')
-    once = isl_fmt.format_source(src)
-    assert isl_fmt.format_source(once) == once
+    once = isl.format_source(src)
+    assert isl.format_source(once) == once
     assert tokens(once) == tokens(src)
 
 
@@ -74,7 +73,7 @@ def test_format_idempotent_and_token_preserving(path):
 
 def test_clean_script_has_no_errors():
     src = f'{BANNER}\n// Foo\n{BANNER}\nevent inq : 1  // Foo the Bar\n  var a : N1\nendevent\n'
-    assert not [d for d in isl_lint.lint_source(src) if d.severity == 'error']
+    assert not [d for d in isl.lint_source(src) if d.severity == 'error']
     assert codes(src) == []
 
 
@@ -131,14 +130,14 @@ def test_L009_call_arity_and_ref():
 def test_fix_via_cli(tmp_path):
     f = tmp_path / 'a.isl'
     f.write_text('event init\nx = 1\nendevent\n')
-    assert isl_lint.main(['--fix', str(f)]) == 0
+    assert isl.main(['lint', '--fix', str(f)]) == 0
     assert f.read_text() == 'event init\n  x = 1\nendevent\n'
-    assert isl_fmt.main(['--check', str(f)]) == 0
+    assert isl.main(['fmt', '--check', str(f)]) == 0
 
 
 def test_format_range_only_touches_selected_lines():
     src = 'event init\nif a\nx=1\nendif\ny=2\nendevent\n'
-    out = isl_fmt.format_range(src, 3, 3)
+    out = isl.format_range(src, 3, 3)
     # selected line gets its context indent (inside event + if = 4 spaces); others untouched
     assert out.split('\n')[2] == '    x=1'
     assert out.split('\n')[4] == 'y=2'
@@ -146,13 +145,13 @@ def test_format_range_only_touches_selected_lines():
 
 def test_format_range_full_equals_format_source():
     src = 'event init\nif a\nx=1\nendif\nendevent\n'
-    assert isl_fmt.format_range(src, 1, 5) == isl_fmt.format_source(src)
+    assert isl.format_range(src, 1, 5) == isl.format_source(src)
 
 
 def test_lint_lines_filter(tmp_path, capsys):
     f = tmp_path / 'a.isl'
     f.write_text('event init\nx = 1\nendevent\n')
-    isl_lint.main(['--lines', '1-1', str(f)])
+    isl.main(['lint', '--lines', '1-1', str(f)])
     assert 'a.isl:2' not in capsys.readouterr().out
-    isl_lint.main(['--lines', '2-2', str(f)])
+    isl.main(['lint', '--lines', '2-2', str(f)])
     assert 'a.isl:2' in capsys.readouterr().out

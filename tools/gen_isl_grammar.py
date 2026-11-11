@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the Sublime Text ISL grammar and symbol-list preferences.
 
-Keyword, command and event lists come from tools/isl_fmt.py so the editor and the
+Keyword, command and event lists come from tools/isl.py so the editor and the
 linter agree. Writes into the Sublime package directory (default below)::
 
     tools/gen_isl_grammar.py [PACKAGE_DIR]   (default: the repo root)
@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-import isl_fmt as islfmt  # noqa: E402
+import isl  # noqa: E402
 
 DEFAULT_PACKAGE = Path(__file__).resolve().parent.parent  # repo root = package root
 
@@ -43,7 +43,7 @@ def ci(word: str) -> str:
 
 
 def grammar() -> dict:
-    commands = (islfmt.KNOWN_COMMANDS - CONTROL - {'event', 'sub', 'var'}) | FUNCTIONS
+    commands = (isl.KNOWN_COMMANDS - CONTROL - {'event', 'sub', 'var'}) | FUNCTIONS
     return {
         'name': 'ISL',
         'scopeName': 'source.isl',

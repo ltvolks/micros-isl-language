@@ -28,7 +28,7 @@ If the reference folder is missing, ask for it. Do not guess command syntax.
 - Detail arrays are bounded by `@Numdtlt`; type letters in `@Dtl_Type`: I, M, D, S, T, R, C. `@SI` and `@Txbl` have 8 elements.
 
 ## Style guide
-Follow these when writing or editing ISL. `isl_fmt.py` and `isl_lint.py` enforce them.
+Follow these when writing or editing ISL. `tools/isl.py` enforces them.
 - Indent 2 spaces, no tabs, no trailing whitespace. `event`/`sub`/`if`/`for`/`forever`/`while`/`startprint` bodies indent one level; `else`/`elseif` align with their `if`. A `\` continuation line keeps its offset from the first line.
 - Every `event inq : n` has a trailing `// description`; the Sublime symbol list shows it, so inquires are found by name, not number.
 
@@ -48,8 +48,8 @@ Follow these when writing or editing ISL. `isl_fmt.py` and `isl_lint.py` enforce
 - Max two consecutive blank lines. Keep keyword case as written; do not reformat string or comment text.
 
 Tools live in `tools/` at the root of the repo this skill ships in, i.e. `../../tools/` relative to this file (plugin install or clone), or `Packages/ISL-language-sublime/tools/` when installed through Package Control. Stdlib-only Python 3.
-- `isl_fmt.py --write FILE.isl` formats; `--check` exits 1 if a change is needed; `-` reads stdin.
-- `isl_lint.py FILE.isl` reports `file:line:col: severity LNNN message`; `--fix` formats first. Rules: L001 unknown event or command, L002 unbalanced blocks or `break` outside a loop, L003 `*` event not last, L004 inq without description, L005 missing docstring, L006 duplicate sub or `waitforrxmsg` without `event rxmsg`, L007 reply wait with no timeout handling, L008 whitespace/indent, L009 `call` arity or ref/array mismatch. L001 and L009 "unknown" findings are warnings; check them against the reference.
+- `isl.py fmt --write FILE.isl` formats; `--check` exits 1 if a change is needed; `-` reads stdin.
+- `isl.py lint FILE.isl` reports `file:line:col: severity LNNN message`; `--fix` formats first. Rules: L001 unknown event or command, L002 unbalanced blocks or `break` outside a loop, L003 `*` event not last, L004 inq without description, L005 missing docstring, L006 duplicate sub or `waitforrxmsg` without `event rxmsg`, L007 reply wait with no timeout handling, L008 whitespace/indent, L009 `call` arity or ref/array mismatch. L001 and L009 "unknown" findings are warnings; check them against the reference.
 
 ## Review checklist
 1. Every event name and command exists in the reference.
@@ -63,7 +63,7 @@ Tools live in `tools/` at the root of the repo this skill ships in, i.e. `../../
 9. Window/ListInput results checked for cancel (`ExitOnCancel`/`ContinueOnCancel` semantics).
 10. Format/specifier strings valid per specifiers.md.
 11. Anything 9700-only is flagged.
-12. `isl_lint.py` is clean (or each remaining finding is explained); `isl_fmt.py --check` passes.
+12. `isl.py lint` is clean (or each remaining finding is explained); `isl.py fmt --check` passes.
 
 ## Debugging
 1. Get the exact error text; grep errors.md.

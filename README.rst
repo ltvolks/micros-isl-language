@@ -10,7 +10,7 @@ Installing
 repository's git URL, then *Package Control: Install Package* and pick the package
 (``ISL-language-sublime``). Tag releases as ``v1.0.0`` etc. so Package Control
 installs versions. Files ending in ``.isl`` open with the ISL syntax and 2-space
-indentation. The formatter and linter are bundled in ``tools/`` (system
+indentation. The formatter and linter (one tool, ``isl.py``) are bundled in ``tools/`` (system
 ``python3``, standard library only); no further setup.
 
 **Claude Code skill and reference**: this repository is also a Claude Code
@@ -33,10 +33,10 @@ Features
   ``getrxmsg``, ``ifelse``, ...). ``inq``, ``tmed`` and ``sub`` include the
   docstring banner.
 * **Indentation rules** so Sublime auto-indents blocks the way the formatter does.
-* **ISL: Format** (command palette): re-indents the file via ``tools/isl_fmt.py``.
+* **ISL: Format** (command palette): re-indents the file via ``tools/isl.py fmt``.
   With a selection, only the selected lines are re-indented (using the context of the
   whole file). Set ``"isl_format_on_save": true`` in ``ISL.sublime-settings`` to run it on save.
-* **Build (Cmd+B) / ISL: Lint**: runs ``tools/isl_lint.py``; errors are clickable.
+* **Build (Cmd+B) / ISL: Lint**: runs ``tools/isl.py lint``; errors are clickable.
   With a selection, only findings on the selected lines are shown. The "Lint and Fix"
   variant re-formats the whole file first.
 
@@ -44,9 +44,9 @@ Command line
 ------------
 ::
 
-    tools/isl_fmt.py --check|--write FILE.isl     # formatter, "-" for stdin
-    tools/isl_fmt.py --lines 10-25 FILE.isl       # only lines 10..25
-    tools/isl_lint.py [--fix] [--format json] [--strict] [--lines A-B] FILE.isl
+    tools/isl.py fmt --check|--write FILE.isl    # formatter, "-" for stdin
+    tools/isl.py fmt --lines 10-25 FILE.isl      # only lines 10..25
+    tools/isl.py lint [--fix] [--format json] [--strict] [--lines A-B] FILE.isl
 
 Set ``isl_tools_path`` / ``isl_python`` in ``ISL.sublime-settings`` to use another
 copy of the tools or interpreter.
@@ -63,7 +63,7 @@ Tests: ``python3 -m pytest tests``.
 Style Guide
 -----------
 Your code will be easier to read and easier to work with if you follow these
-simple guidelines. ``tools/isl_fmt.py`` and ``tools/isl_lint.py`` enforce them.
+simple guidelines. ``tools/isl.py`` enforces them.
 
 Indentation
 ***********

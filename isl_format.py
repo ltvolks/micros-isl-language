@@ -1,4 +1,4 @@
-"""ISL: Format and ISL: Lint -- run the bundled tools/isl_fmt.py and tools/isl_lint.py.
+"""ISL: Format and ISL: Lint -- run the bundled tools/isl.py.
 
 With a non-empty selection, only the selected lines are formatted / reported.
 
@@ -30,14 +30,14 @@ def python():
 
 def _format(view, text, lines=None):
     indent = str(view.settings().get('tab_size', 2))
-    cmd = [python(), tool_path('isl_fmt.py'), '--indent', indent]
+    cmd = [python(), tool_path('isl.py'), 'fmt', '--indent', indent]
     if lines:
         cmd += ['--lines', '%d-%d' % lines]
     proc = subprocess.run(
         cmd + ['-'],
         input=text, capture_output=True, text=True, timeout=15)
     if proc.returncode != 0:
-        raise RuntimeError(proc.stderr.strip() or 'isl_fmt failed')
+        raise RuntimeError(proc.stderr.strip() or 'isl fmt failed')
     return proc.stdout
 
 
@@ -82,7 +82,7 @@ class IslLintCommand(sublime_plugin.WindowCommand):
         if not view or not view.file_name():
             sublime.status_message('ISL lint: save the file first')
             return
-        cmd = [python(), tool_path('isl_lint.py')]
+        cmd = [python(), tool_path('isl.py'), 'lint']
         lines = selected_lines(view)
         if lines and not fix:
             cmd += ['--lines', '%d-%d' % lines]
