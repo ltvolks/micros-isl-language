@@ -1,8 +1,21 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "isl-language"
 version = "1.0.0"
-description = "MICROS RES 3700 ISL: Sublime Text syntax, formatter, linter, and Claude skill"
+description = "Formatter and linter for MICROS RES 3700 ISL scripts"
+readme = "README.md"
 requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+isl = "isl:main"
+
+[tool.setuptools]
+package-dir = { "" = "tools" }
+py-modules = ["isl"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -1,0 +1,12 @@
+- id: isl-format
+  name: ISL format
+  description: Check that ISL scripts are formatted (2-space indent)
+  entry: isl fmt --check
+  language: python
+  files: \.isl$
+- id: isl-lint
+  name: ISL lint
+  description: Lint ISL scripts
+  entry: isl lint
+  language: python
+  files: \.isl$
