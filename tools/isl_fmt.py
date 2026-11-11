@@ -6,6 +6,7 @@
     isl_fmt.py --check FILE...    exit 1 if any file would change
     isl_fmt.py -                  stdin -> stdout (editor integration)
     isl_fmt.py --indent N         spaces per level (default 2)
+    isl_fmt.py --lines A-B FILE   format only lines A..B (1-based, inclusive)
 
 Standard library only. See skills/micros-isl-3700/SKILL.md for the style guide.
 """
@@ -13,6 +14,7 @@ Standard library only. See skills/micros-isl-3700/SKILL.md for the style guide.
 from __future__ import annotations
 
 import argparse
+import difflib
 import re
 import sys
 from dataclasses import dataclass, field
@@ -196,6 +198,32 @@ def format_source(text: str, indent: int = DEFAULT_INDENT) -> str:
 
 
 
+def format_range(text: str, start: int, end: int, indent: int = DEFAULT_INDENT) -> str:
+    """Format only lines start..end (1-based, inclusive).
+
+    The whole file is formatted so the block context is right; only lines inside
+    the range are taken from the result. Lines outside it are left untouched.
+    """
+    old = text.split('\n')
+    new = format_source(text, indent).split('\n')
+    sm = difflib.SequenceMatcher(None, [x.strip() for x in old], [x.strip() for x in new],
+                                 autojunk=False)
+    out = list(old)
+    for tag, i1, i2, j1, _j2 in sm.get_opcodes():
+        if tag != 'equal':
+            continue
+        for k in range(i2 - i1):
+            if start <= i1 + k + 1 <= end:
+                out[i1 + k] = new[j1 + k].rstrip() if not old[i1 + k].strip() else new[j1 + k]
+    return '\n'.join(out)
+
+
+def parse_lines(spec: str) -> tuple[int, int]:
+    a, _, b = spec.partition('-')
+    start = int(a)
+    return start, int(b or a)
+
+
 def _read(path: str) -> str:
     return sys.stdin.read() if path == '-' else Path(path).read_text(encoding='utf-8')
 
@@ -204,6 +232,7 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog='isl_fmt', description='Format ISL scripts')
     p.add_argument('files', nargs='+', help='ISL files, or - for stdin')
     p.add_argument('--indent', type=int, default=DEFAULT_INDENT, help='spaces per level (default 2)')
+    p.add_argument('--lines', metavar='A-B', help='format only these 1-based lines')
     g = p.add_mutually_exclusive_group()
     g.add_argument('--write', action='store_true', help='rewrite files in place')
     g.add_argument('--check', action='store_true', help='exit 1 if changes needed')
@@ -211,7 +240,10 @@ def main(argv: list[str] | None = None) -> int:
     changed = 0
     for path in args.files:
         src = _read(path)
-        out = format_source(src, args.indent)
+        if args.lines:
+            out = format_range(src, *parse_lines(args.lines), indent=args.indent)
+        else:
+            out = format_source(src, args.indent)
         if path == '-':
             sys.stdout.write(out)
             continue

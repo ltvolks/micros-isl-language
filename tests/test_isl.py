@@ -134,3 +134,25 @@ def test_fix_via_cli(tmp_path):
     assert isl_lint.main(['--fix', str(f)]) == 0
     assert f.read_text() == 'event init\n  x = 1\nendevent\n'
     assert isl_fmt.main(['--check', str(f)]) == 0
+
+
+def test_format_range_only_touches_selected_lines():
+    src = 'event init\nif a\nx=1\nendif\ny=2\nendevent\n'
+    out = isl_fmt.format_range(src, 3, 3)
+    # selected line gets its context indent (inside event + if = 4 spaces); others untouched
+    assert out.split('\n')[2] == '    x=1'
+    assert out.split('\n')[4] == 'y=2'
+
+
+def test_format_range_full_equals_format_source():
+    src = 'event init\nif a\nx=1\nendif\nendevent\n'
+    assert isl_fmt.format_range(src, 1, 5) == isl_fmt.format_source(src)
+
+
+def test_lint_lines_filter(tmp_path, capsys):
+    f = tmp_path / 'a.isl'
+    f.write_text('event init\nx = 1\nendevent\n')
+    isl_lint.main(['--lines', '1-1', str(f)])
+    assert 'a.isl:2' not in capsys.readouterr().out
+    isl_lint.main(['--lines', '2-2', str(f)])
+    assert 'a.isl:2' in capsys.readouterr().out

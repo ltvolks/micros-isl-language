@@ -1,5 +1,7 @@
 """ISL: Format and ISL: Lint -- run the bundled tools/isl_fmt.py and tools/isl_lint.py.
 
+With a non-empty selection, only the selected lines are formatted / reported.
+
 Settings (ISL.sublime-settings): isl_tools_path (default: bundled tools/), isl_python,
 isl_format_on_save.
 """
@@ -26,14 +28,30 @@ def python():
     return _settings().get('isl_python') or 'python3'
 
 
-def _format(view, text):
+def _format(view, text, lines=None):
     indent = str(view.settings().get('tab_size', 2))
+    cmd = [python(), tool_path('isl_fmt.py'), '--indent', indent]
+    if lines:
+        cmd += ['--lines', '%d-%d' % lines]
     proc = subprocess.run(
-        [python(), tool_path('isl_fmt.py'), '--indent', indent, '-'],
+        cmd + ['-'],
         input=text, capture_output=True, text=True, timeout=15)
     if proc.returncode != 0:
         raise RuntimeError(proc.stderr.strip() or 'isl_fmt failed')
     return proc.stdout
+
+
+def selected_lines(view):
+    """1-based (first, last) line span of the selection, or None if nothing is selected."""
+    sels = [r for r in view.sel() if not r.empty()]
+    if not sels:
+        return None
+    first = view.rowcol(min(r.begin() for r in sels))[0] + 1
+    last_pt = max(r.end() for r in sels)
+    last = view.rowcol(last_pt)[0] + 1
+    if view.rowcol(last_pt)[1] == 0 and last > first:
+        last -= 1          # selection ends at the start of a line: that line is not included
+    return first, last
 
 
 class IslFormatCommand(sublime_plugin.TextCommand):
@@ -44,8 +62,9 @@ class IslFormatCommand(sublime_plugin.TextCommand):
         view = self.view
         region = sublime.Region(0, view.size())
         old = view.substr(region)
+        lines = selected_lines(view)
         try:
-            new = _format(view, old)
+            new = _format(view, old, lines)
         except Exception as exc:  # surface problems in the status bar, never crash a save
             sublime.status_message('ISL format failed: %s' % exc)
             return
@@ -64,6 +83,9 @@ class IslLintCommand(sublime_plugin.WindowCommand):
             sublime.status_message('ISL lint: save the file first')
             return
         cmd = [python(), tool_path('isl_lint.py')]
+        lines = selected_lines(view)
+        if lines and not fix:
+            cmd += ['--lines', '%d-%d' % lines]
         if fix:
             cmd.append('--fix')
         cmd.append(view.file_name())

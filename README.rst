@@ -34,16 +34,19 @@ Features
   docstring banner.
 * **Indentation rules** so Sublime auto-indents blocks the way the formatter does.
 * **ISL: Format** (command palette): re-indents the file via ``tools/isl_fmt.py``.
-  Set ``"isl_format_on_save": true`` in ``ISL.sublime-settings`` to run it on save.
+  With a selection, only the selected lines are re-indented (using the context of the
+  whole file). Set ``"isl_format_on_save": true`` in ``ISL.sublime-settings`` to run it on save.
 * **Build (Cmd+B) / ISL: Lint**: runs ``tools/isl_lint.py``; errors are clickable.
-  The "Lint and Fix" variant re-formats the file first.
+  With a selection, only findings on the selected lines are shown. The "Lint and Fix"
+  variant re-formats the whole file first.
 
 Command line
 ------------
 ::
 
     tools/isl_fmt.py --check|--write FILE.isl     # formatter, "-" for stdin
-    tools/isl_lint.py [--fix] [--format json] [--strict] FILE.isl
+    tools/isl_fmt.py --lines 10-25 FILE.isl       # only lines 10..25
+    tools/isl_lint.py [--fix] [--format json] [--strict] [--lines A-B] FILE.isl
 
 Set ``isl_tools_path`` / ``isl_python`` in ``ISL.sublime-settings`` to use another
 copy of the tools or interpreter.

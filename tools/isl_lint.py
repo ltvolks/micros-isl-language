@@ -5,6 +5,7 @@
     isl_lint.py --fix FILE...       format in place (isl_fmt), then report what remains
     isl_lint.py --format json FILE...
     isl_lint.py --strict FILE...    fail on warnings too
+    isl_lint.py --lines A-B FILE    report only findings on lines A..B (1-based)
 
 Standard library only. Rules L001-L009; see skills/micros-isl-3700/SKILL.md.
 """
@@ -21,7 +22,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from isl_fmt import (  # noqa: E402
     ASSIGN_RE, BANNER_RE, BLOCK_CLOSE, BLOCK_MIDDLE, BLOCK_OPEN, DEFAULT_INDENT, EVENT_RE,
-    KNOWN_COMMANDS, KNOWN_EVENTS, LOOPS, NUMERIC_EVENTS, SUB_RE, Line, _read, format_source, scan,
+    KNOWN_COMMANDS, KNOWN_EVENTS, LOOPS, NUMERIC_EVENTS, SUB_RE, Line, _read, format_source,
+    parse_lines, scan,
 )
 
 # ---------------------------------------------------------------- linting
@@ -289,6 +291,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument('--fix', action='store_true', help='re-format files first')
     p.add_argument('--format', choices=['text', 'json'], default='text')
     p.add_argument('--strict', action='store_true', help='fail on warnings too')
+    p.add_argument('--lines', metavar='A-B', help='report only findings on these 1-based lines')
     args = p.parse_args(argv)
     all_diags: list[Diag] = []
     for path in args.files:
@@ -298,7 +301,11 @@ def main(argv: list[str] | None = None) -> int:
             if out != src:
                 Path(path).write_text(out, encoding='utf-8')
                 src = out
-        all_diags += lint_source(src, path, args.indent)
+        found = lint_source(src, path, args.indent)
+        if args.lines:
+            lo, hi = parse_lines(args.lines)
+            found = [d for d in found if lo <= d.line <= hi]
+        all_diags += found
     if args.format == 'json':
         print(json.dumps([d.__dict__ for d in all_diags], indent=2))
     else:
