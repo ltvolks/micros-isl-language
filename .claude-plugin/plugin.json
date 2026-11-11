@@ -1,0 +1,6 @@
+{
+  "name": "isl",
+  "description": "MICROS RES 3700 ISL: Claude skill with the ISL reference, plus the isl_fmt and isl_lint tools",
+  "version": "1.0.0",
+  "license": "MIT"
+}

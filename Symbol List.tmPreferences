@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List</string>
+	<key>scope</key>
+	<string>entity.name.function.isl</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+s/^[Ee][Vv][Ee][Nn][Tt]\s+[Ii][Nn][Qq]\s*:\s*(\S+)\s+\/\/\s*(.*)/Inq $1 - $2/
+s/^[Ee][Vv][Ee][Nn][Tt]\s+[Ii][Nn][Qq]\s*:\s*(\S+)/Inq $1/
+s/^[Ee][Vv][Ee][Nn][Tt]\s+[Tt][Mm][Ee][Dd]\s*:\s*(\S+)\s+\/\/\s*(.*)/Tmed $1 - $2/
+s/^[Ee][Vv][Ee][Nn][Tt]\s+[Tt][Mm][Ee][Dd]\s*:\s*(\S+)/Tmed $1/
+s/^[Ee][Vv][Ee][Nn][Tt]\s+[Rr][Xx][Mm][Ss][Gg]\s*:\s*(\S+)/RxMsg $1/
+s/^[Ee][Vv][Ee][Nn][Tt]\s+(\w+)/Event $1/
+s/^[Ss][Uu][Bb]\s+/- /
+</string>
+	</dict>
+	<key>uuid</key>
+	<string>F1F9695C-C99D-4EA8-96E9-6631CFB08FE0</string>
+</dict>
+</plist>

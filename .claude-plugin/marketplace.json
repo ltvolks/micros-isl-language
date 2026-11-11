@@ -1,0 +1,11 @@
+{
+  "name": "isl-language",
+  "owner": { "name": "ISL language tools" },
+  "plugins": [
+    {
+      "name": "isl",
+      "source": "./",
+      "description": "MICROS RES 3700 ISL skill, reference, formatter and linter"
+    }
+  ]
+}

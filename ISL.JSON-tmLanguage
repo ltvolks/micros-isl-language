@@ -1,0 +1,75 @@
+{
+    "name": "ISL",
+    "scopeName": "source.isl",
+    "fileTypes": [
+        "isl"
+    ],
+    "uuid": "1B459BD3-7DE7-44BC-B50A-C433B9A5260E",
+    "foldingStartMarker": "(?ix) ^\\s*( event\\s+\\w+ | sub\\s+\\w+ | if\\b.* | for\\b.* | forever\\b | while\\b.* | startprint\\w* )",
+    "foldingStopMarker": "(?i)^\\s*end(event|sub|if|for|while|print\\w*)\\b",
+    "patterns": [
+        {
+            "name": "comment.line.double-slash.isl",
+            "begin": "//",
+            "end": "$\\n?",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.comment.isl"
+                }
+            }
+        },
+        {
+            "name": "string.quoted.double.isl",
+            "begin": "\"",
+            "end": "\""
+        },
+        {
+            "name": "entity.name.function.isl",
+            "match": "(?i)\\bevent\\s+(?:inq|tmed)\\s*:\\s*(?:\\d+|\\*)(?:[ \\t]+//.*)?"
+        },
+        {
+            "name": "entity.name.function.isl",
+            "match": "(?i)\\bevent\\s+(?:rxmsg\\s*:\\s*[\\w*]+|[A-Za-z_]\\w*)"
+        },
+        {
+            "name": "entity.name.function.isl",
+            "match": "(?i)\\bsub\\s+\\w+"
+        },
+        {
+            "name": "keyword.control.isl",
+            "match": "(?i)\\b(startprintwithstatus|continueoncancel|exitwitherror|endprintnoff|exitcontinue|exitoncancel|endprintff|exitcancel|startprint|endevent|endprint|endwhile|forever|elseif|endfor|endsub|return|break|endif|while|call|else|for|if|to)\\b"
+        },
+        {
+            "name": "keyword.operator.word.isl",
+            "match": "(?i)\\b(and|or|not)\\b"
+        },
+        {
+            "name": "storage.type.isl",
+            "match": "(?i)\\b(var|ref)\\b"
+        },
+        {
+            "name": "storage.modifier.isl",
+            "match": "\\$\\d+|(?i)\\b[AN]\\d+\\b"
+        },
+        {
+            "name": "variable.other.sysvar.isl",
+            "match": "@\\w+"
+        },
+        {
+            "name": "constant.numeric.isl",
+            "match": "\\b\\d+(\\.\\d+)?\\b"
+        },
+        {
+            "name": "support.function.isl",
+            "match": "(?i)\\b(one_time_auto_discounts|windowinputwithsave|displaytouchscreen|useunfilteredetail|windoweditwithsave|display_rear_area|discardglobalvar|usefilteredetail|windowscrolldown|getenterorclear|loaddbkybdmacro|retainglobalvar|usecompatformat|clearkybdmacro|displayinverse|displaymsinput|getmaxdiscount|setsignonright|useisltimeouts|usestdtimeouts|waitforconfirm|windowscrollup|clearreararea|displayrearea|dllcall_cdecl|loadkybdmacro|setsignonleft|clearchkinfo|displayinput|displayislts|errormessage|formatbuffer|regidleevent|setisltskeyx|waitforclear|waitforenter|waitforrxmsg|infomessage|listdisplay|loadmaginfo|savechkinfo|saverefinfo|setisltskey|touchscreen|useisformat|windowclear|windowclose|windowinput|cleararray|clearchkid|clearislts|editdetail|voiddetail|windowedit|arraysize|errorbeep|fwritebfr|keynumber|listinput|listprint|lowercase|makeascii|printline|setstring|test_dsvc|tointeger|uppercase|freadbfr|fwriteln|getrxmsg|inputkey|linefeed|makekeys|display|dllcall|dllfree|dllload|formatq|freadln|include|keytype|prorate|varsize|fclose|format|fwrite|gethex|msleep|prompt|splitq|system|window|debug|fopen|fread|fseek|ftell|input|instr|rxmsg|split|txmsg|beep|feof|trim|abs|asc|bit|chr|env|key|len|mid)\\b"
+        },
+        {
+            "name": "punctuation.separator.continuation.isl",
+            "match": "\\\\\\s*$"
+        },
+        {
+            "name": "keyword.operator.isl",
+            "match": "<>|<=|>=|[-+*/%=<>]"
+        }
+    ]
+}

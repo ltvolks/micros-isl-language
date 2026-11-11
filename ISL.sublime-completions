@@ -1,0 +1,24 @@
+{
+    "scope": "source.isl",
+
+    "completions":
+    [
+        { "trigger": "event", "contents": "event ${1:system_event}\n\t$0\nendevent" },
+        { "trigger": "inq", "contents": "// *********************************************************************\n// ${1:Name}\n//   ${2:What it does}\n// *********************************************************************\nevent inq : ${3:1}  // ${4:Description (shown in the symbol list)}\n\t$0\nendevent" },
+        { "trigger": "tmed", "contents": "// *********************************************************************\n// ${1:Name}\n//   ${2:What it does}\n// *********************************************************************\nevent tmed : ${3:1}  // ${4:Description}\n\t$0\nendevent" },
+        { "trigger": "rxmsg", "contents": "event rxmsg : ${1:callback}\n\trxmsg ${2:args}\n\t$0\nendevent" },
+        { "trigger": "var", "contents": "var $1 : ${2:A100}" },
+        { "trigger": "if", "contents": "if ${1:expression}\n\t$0\nendif" },
+        { "trigger": "ifelse", "contents": "if ${1:expression}\n\t$2\nelse\n\t$0\nendif" },
+        { "trigger": "for", "contents": "for ${1:cnt}=${2:1} to $3\n\t$0\nendfor" },
+        { "trigger": "forever", "contents": "forever\n\t$0\nendfor" },
+        { "trigger": "while", "contents": "while ${1:expression}\n\t$0\nendwhile" },
+        { "trigger": "sub", "contents": "// *********************************************************************\n// ${1:name}\n//   ${2:What it does}\n// *********************************************************************\nsub ${1:name}(${3:var arg : A20})\n\t$0\nendsub" },
+        { "trigger": "input", "contents": "input ${1:input_var}, \"${2:Prompt}\"$0" },
+        { "trigger": "txmsg", "contents": "txmsg \"${1:command}\", \"cb:${2:callback}\", \"eb:${3:errback}\"$0" },
+        { "trigger": "getrxmsg", "contents": "getrxmsg\nif @RXMSG = \"${1:callback}\"\n\trxmsg $2\nelseif @RXMSG = \"${3:errback}\"\n\trxmsg $4\nendif$0" },
+        { "trigger": "win", "contents": "window ${1:12}, ${2:78}, \"${3:title}\"" },
+        "else",
+        "elseif"
+    ]
+}

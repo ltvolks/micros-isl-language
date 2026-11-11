@@ -1,0 +1,14 @@
+{
+    // Style guide: 2 spaces, no tabs
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": true,
+    "ensure_newline_at_eof_on_save": true,
+    "rulers": [78],
+
+    // Directory holding isl_fmt.py / isl_lint.py. Empty = the copy bundled in this package.
+    "isl_tools_path": "",
+    "isl_python": "python3",
+    // Run "ISL: Format" automatically before each save
+    "isl_format_on_save": false
+}

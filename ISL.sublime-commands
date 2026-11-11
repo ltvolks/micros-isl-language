@@ -1,0 +1,4 @@
+[
+    { "caption": "ISL: Format", "command": "isl_format" },
+    { "caption": "ISL: Lint", "command": "isl_lint" }
+]

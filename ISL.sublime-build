@@ -1,0 +1,11 @@
+{
+    "selector": "source.isl",
+    "target": "isl_lint",
+    "file_regex": "^(.+?):(\\d+):(\\d+): (.*)$",
+    "variants": [
+        {
+            "name": "Lint and Fix (re-format)",
+            "fix": true
+        }
+    ]
+}

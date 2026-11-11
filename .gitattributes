@@ -1,0 +1,5 @@
+# Keep the Package Control download small; these are for development / Claude only.
+/tests              export-ignore
+/skills             export-ignore
+/.claude-plugin     export-ignore
+/pyproject.toml     export-ignore

@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+// *********************************************************************
+// ${1:Name}
+//   ${2:What it does}
+// *********************************************************************
+$0]]></content>
+	<tabTrigger>doc</tabTrigger>
+	<scope>source.isl</scope>
+	<description>ISL docstring banner</description>
+</snippet>
