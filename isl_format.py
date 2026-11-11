@@ -33,12 +33,13 @@ def _format(view, text, lines=None):
     cmd = [python(), tool_path('isl.py'), 'fmt', '--indent', indent]
     if lines:
         cmd += ['--lines', '%d-%d' % lines]
-    proc = subprocess.run(
-        cmd + ['-'],
-        input=text, capture_output=True, text=True, timeout=15)
+    # Sublime Text 3 runs plugins on Python 3.3: no subprocess.run / capture_output.
+    proc = subprocess.Popen(cmd + ['-'], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE, universal_newlines=True)
+    out, err = proc.communicate(text)
     if proc.returncode != 0:
-        raise RuntimeError(proc.stderr.strip() or 'isl fmt failed')
-    return proc.stdout
+        raise RuntimeError(err.strip() or 'isl fmt failed')
+    return out
 
 
 def selected_lines(view):

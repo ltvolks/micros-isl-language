@@ -47,7 +47,7 @@ Follow these when writing or editing ISL. `tools/isl.py` enforces them.
 - A `*` event (`Inq : *`, `Tmed : *`, `RxMsg : *`) comes after the specific events of its type.
 - Max two consecutive blank lines. Keep keyword case as written; do not reformat string or comment text.
 
-Tools live in `tools/` at the root of the repo this skill ships in, i.e. `../../tools/` relative to this file (plugin install or clone), or `Packages/ISL-language-sublime/tools/` when installed through Package Control. Stdlib-only Python 3.
+Tools live in `tools/` at the root of the repo this skill ships in, i.e. `../../tools/` relative to this file (plugin install or clone), or `Packages/micros-isl-language/tools/` when installed through Package Control. Stdlib-only Python 3.
 - `isl.py fmt --write FILE.isl` formats; `--check` exits 1 if a change is needed; `-` reads stdin.
 - `isl.py lint FILE.isl` reports `file:line:col: severity LNNN message`; `--fix` formats first. Rules: L001 unknown event or command, L002 unbalanced blocks or `break` outside a loop, L003 `*` event not last, L004 inq without description, L005 missing docstring, L006 duplicate sub or `waitforrxmsg` without `event rxmsg`, L007 reply wait with no timeout handling, L008 whitespace/indent, L009 `call` arity or ref/array mismatch. L001 and L009 "unknown" findings are warnings; check them against the reference.
 
