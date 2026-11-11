@@ -1,11 +1,11 @@
 ---
-name: micros-isl-3700
+name: micros-isl-language
 description: Write, review and debug MICROS ISL (SIM scripting) for RES 3700. Use for .isl files, SIM events, TxMsg/RxMsg interfaces, ISL errors.
 ---
 
-# MICROS ISL (RES 3700)
+# MICROS ISL
 
-Target is 3700. Treat 9700 docs as optional: a 9700 function may not exist on 3700. Say so when unsure and flag it for testing.
+Target is RES 3700. Treat 9700 docs as optional: a 9700 function may not exist on 3700. Say so when unsure and flag it for testing.
 
 ## Reference
 Searchable markdown lives in `isl-reference/` (see `INDEX.md`). Look up before writing; do not rely on memory.

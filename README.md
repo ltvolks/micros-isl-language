@@ -7,10 +7,15 @@ snippets, a symbol list, auto-indent rules, a lint build system and a formatter.
 
 **Sublime Text (Package Control)**: run *Package Control: Add Repository* with this
 repository's git URL, then *Package Control: Install Package* and pick the package
-(`ISL-language-sublime`). Tag releases as `v1.0.0` etc. so Package Control
-installs versions. Files ending in `.isl` open with the ISL syntax and 2-space
+(`micros-isl-language`).  Files ending in `.isl` open with the ISL syntax and 2-space
 indentation. The formatter and linter (one tool, `isl.py`) are bundled in `tools/` (system
 `python3`, standard library only); no further setup.
+
+Without Package Control, symlink the package from a clone:
+
+```bash
+ln -s /path/to/clone/ ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/micros-isl-language
+```
 
 **Claude Code skill and reference**: this repository is also a Claude Code
 plugin marketplace. The skill (`skills/micros-isl-3700`) and the ISL reference
@@ -25,6 +30,16 @@ Without plugins, symlink the skill from a clone:
 
 ```bash
 ln -s /path/to/clone/skills/micros-isl-3700 ~/.claude/skills/micros-isl-3700
+```
+
+**Python Package**: Install as a Python package to expose the isl utility for formatting and linting.
+
+```sh
+pipx install git+<repo-url>            # standalone command
+pipx install git+<repo-url>@v1.0.0     # pinned to a tag
+
+uv add --dev "isl-language @ git+<repo-url>@v1.0.0"
+uv run isl lint isl/*.isl
 ```
 
 ## Features
@@ -64,6 +79,8 @@ python3 tools/gen_isl_grammar.py
 ```
 
 Tests: `python3 -m pytest tests`.
+
+Tag releases as `v1.0.0` etc. so Package Control installs versions.
 
 ## Style Guide
 
