@@ -3,3 +3,4 @@
 /skills             export-ignore
 /.claude-plugin     export-ignore
 /pyproject.toml     export-ignore
+/docs              export-ignore

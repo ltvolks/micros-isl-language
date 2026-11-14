@@ -1,0 +1,4 @@
+/* links created by the isl domain inside highlighted code keep the code colours */
+.highlight a.isl-autolink { color: inherit; text-decoration: underline dotted; }
+.highlight a.isl-autolink:hover { text-decoration: underline; }
+a.isl-autolink { text-decoration-style: dotted; }

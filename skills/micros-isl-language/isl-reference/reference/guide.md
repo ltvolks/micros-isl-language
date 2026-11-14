@@ -707,10 +707,10 @@ This script posts a charge to a PMS system and waits for the response.
 var guest_id:a20
 
 event tmed : 1                                 //PMS room charge key is
-                                               // Tender key #1
-   input guest_id, “Guest posting, enter name or room #”
-   txmsg “CHG_POSTING”, guest_id, @TNDTTL, @CHKNUM,@RVC
-   waitforrxmsg
+  // Tender key #1
+  input guest_id, "Guest posting, enter name or room #"
+  txmsg "CHG_POSTING", guest_id, @TNDTTL, @CHKNUM,@RVC
+  waitforrxmsg
 endevent
 
 event rxmsg : chg_posting
@@ -720,17 +720,17 @@ event rxmsg : chg_posting
 
   rxmsg status, message
 
-  if status=“P”                                          //Posting approved
+  if status="P"                                          //Posting approved
     saverefinfo message
 
 
-  exitcontinue
-endif
+    exitcontinue
+  endif
 
 
-   if status = “E”                                         //Error
-      exitwitherror message
-   endif
+  if status = "E"                                         //Error
+    exitwitherror message
+  endif
 endevent
 ```
 
@@ -738,14 +738,14 @@ endevent
 
 This script places a window with the title “Charge Denied” on the screen, and provides text in it with the reason why the charge was denied. The operator is then prompted to press the [Clear] key before cancelling the operation.
 
-```
+```isl
 event rxmsg : denial_msg
-   var reason_text : a32
-   rxmsg reason_text
-   window 3, 34, “Charge Denied”
-   display 2,@CENTER, reason_text
-   waitforclear
-   exitcancel
+  var reason_text : a32
+  rxmsg reason_text
+  window 3, 34, "Charge Denied"
+  display 2,@CENTER, reason_text
+  waitforclear
+  exitcancel
 endevent
 ```
 
@@ -754,7 +754,7 @@ This example prompts the operator to enter a customer’s address and phone numb
 
 ```isl
 var phone_num : N7                                 //Global variable, keep phone
-                                                   // number around.
+// number around.
 event inq : 1                                      //Use Inquiry key #1 to get guest info.
   var cust_name : A32
   var addr1 : A32
@@ -762,7 +762,20 @@ event inq : 1                                      //Use Inquiry key #1 to get g
   var addr3 : A32
   var special_instructions : A32
 
-  window 7, 50, “Customer Info” display 2,2, “Phone Number:” displayinput 2, 18, phone_num{:###-####}, “Enter phone number” display 3,2, “Customer name:” displayinput 3,18,cust_name, “Enter customer’s name” display 4,2, “Address Line 1:” displayinput 4,18,addr1, “Enter address” display 5,2, “Address Line 2:” displayinput 5,18,addr2, “Enter address” display 6,2, “Address Line 3:” displayinput 6,18,addr3, “Enter address” display 7,2, “Instructions:” displayinput 7,18,special_instructions, “Enter instructions” windowinput
+  window 7, 50, "Customer Info"
+  display 2,2, "Phone Number:"
+  displayinput 2, 18, phone_num{:###-####}, "Enter phone number"
+  display 3,2, "Customer name:"
+  displayinput 3,18,cust_name, "Enter customer's name"
+  display 4,2, "Address Line 1:"
+  displayinput 4,18,addr1, "Enter address"
+  display 5,2, "Address Line 2:"
+  displayinput 5,18,addr2, "Enter address"
+  display 6,2, "Address Line 3:"
+  displayinput 6,18,addr3, "Enter address"
+  display 7,2, "Instructions:"
+  displayinput 7,18,special_instructions, "Enter instructions"
+  windowinput
 
   // send information to a third party system
   txmsg phone_num, cust_name, addr1, addr2, addr3, special_instructions
@@ -788,10 +801,12 @@ Comments (//)
 
 Declarations and commands will always be on their own line and should be the first non-white space characters. A comment may be placed on a line by beginning the comment with “//” characters. All characters to the right of the comment identifier “// ” are ignored. For example:
 
-Window 2,19, “ROOM INQUIRY”//Create window //Prompt for room number
-
+```isl
+Window 2,19, "ROOM INQUIRY"//Create window //Prompt for room number
 ```
-Display 2,2,          “Enter Room Number”
+
+```isl
+Display 2,2,          "Enter Room Number"
 ```
 
 A comment may reside on its own line or to the right of a command and its arguments. Lines should be terminated with an ASCII carriage return, or an ASCII linefeed, or a carriage return/line feed pair.
@@ -1076,19 +1091,19 @@ To make these changes, a user can change the unencrypted configuration file, the
 
 Example The script below prints out a custom coupon using the ISL. A chain of restaurants has several sites where the coupons will be distributed. Each site must have its unique name, address, and telephone number printed on each coupon.
 
-```
+```isl
 event inq : 1
-//start the print job
-   startprint @rcpt
-//print the site into
-   printline "-----------------------------"
-   printline site_name
-   printline site_addr1
-   printline site_addr2
-   printline site_phone
-   printline "-----------------------------"
-   call print_coupon
-   endprint
+  //start the print job
+  startprint @rcpt
+    //print the site into
+    printline "-----------------------------"
+    printline site_name
+    printline site_addr1
+    printline site_addr2
+    printline site_phone
+    printline "-----------------------------"
+    call print_coupon
+  endprint
 endevent
 ```
 
@@ -1096,7 +1111,7 @@ Since the same script is distributed to each site, it is not possible to embed t
 
 ### Merge Program Files
 
-```
+```isl
 //Set these variables to the site name, address,
 //and phone number
 var site_name : a40 = "My Restaurant"
@@ -1190,13 +1205,17 @@ Variables and ISL
 
 Typically, variable results are stored in expressions like the following example:
 
+```isl
 variable_name = expression
+```
 
 An expression is a combination of variables and operators. Expressions may also include constants and functions.
 
 For example, in the expression below, the size of a window is computed from the number of elements in a list:
 
+```isl
 window_length = ListSize + 2
+```
 
 The user variable window_length has a unique name defined by you, the user. The expression on the right contains a user variable called ListSize, which is added to the integer 2. The result of the expression on the right will be the value assigned to the user variable window_length: the ListSize plus 2.
 
@@ -1249,9 +1268,12 @@ Key                key        This system variable is used for key   var keypres
 
 Example The examples below declare a 32-character alphanumeric variable and a four-digit room number variable, respectively.
 
+```isl
 event : 1
 
-var message_text : A32 var room_num : N4 . . .
+var message_text : A32
+var room_num : N4 . . .
+```
 
 ## Relational and Logical Operators
 
@@ -1294,16 +1316,16 @@ The NOT operator is generally used in If, ElseIf, and While statements to contro
 
 The following example is a subroutine of a loop that executes until the variable done becomes true. sub get_id( ref id ) var done : N3
 
-```
-    done = 0
-    while NOT done
-       input id, “Enter id”
-       if id > 0 AND id < MAX_ID
-            done = 1
-       else
-            errormessage “Not Valid”
-       endif
-    endwhile
+```isl
+done = 0
+while NOT done
+input id, "Enter id"
+if id > 0 AND id < MAX_ID
+done = 1
+else
+errormessage "Not Valid"
+endif
+endwhile
 endsub
 ```
 
@@ -1336,12 +1358,15 @@ logical or                       OR                           Nx
 
 Relational Operators All relational operators produce a non-zero value if they are true, and 0 if they are false. For example:
 
+```isl
 result = 1 < 2//true, result will be non-zero
 
 result = 100 < 4//false, result will zero
+```
 
 Logical (Boolean) Operators The logical (Boolean) AND and OR operators treat their operand as either true (non- zero) or false (zero) values. For example: Fix These
 
+```isl
 result = 5 AND 6 //true, since 5 and 6 are both non- zero
 
 result = 5 AND 0//false, since 0 is false
@@ -1349,6 +1374,7 @@ result = 5 AND 0//false, since 0 is false
 result = 0 OR 0//false, since neither one is true
 
 result = 0 OR 5//true, at least one value is non-zero
+```
 
 - Precedence
 - ISL expression operands are evaluated from left to right until the end of the expression is reached. For example, note the following expression:
@@ -1409,7 +1435,10 @@ User Variables
 
 Use the Var command to declare user variables. These variables are given a value by an operator, or by the interface, in a response message. Example:
 
-event inq : 5 var rowcnt : n3 . . .
+```isl
+event inq : 5
+var rowcnt : n3 . . .
+```
 
 - Guidelines
 - The variable name must begin with a letter A-Z, a-z, or the underline character (_).
@@ -1435,7 +1464,9 @@ Arrays of variables can also be declared by including an array size with the dec
 
 The example below declares an array of strings named message_text, containing eight elements, each 32 characters in length.
 
+```isl
 var message_text[8]:A32
+```
 
 ```
 Note          The use of brackets in the example above does not denote an optional
@@ -1448,13 +1479,17 @@ For more information on the Var command, please see the SIM Online Help.
 
 It is possible to declare a variable with a size that is defined by an expression, rather than a hard-coded number. If the SIM encounters an open parenthesis immediately following the type of the variable, it will assume that an expression follows, defining the variable’s size. For example, the following commands have the same effect:
 
+```isl
 var window_width : N30
 
 var window_width : N(15 + 15)
+```
 
 This feature is useful for declaring variables whose size is not known until run-time. Example:
 
+```isl
 var : a(str_len)
+```
 
 ### Using List Arrays and Records
 
@@ -1476,65 +1511,108 @@ Example: Rxmsg list_size, list[]
 - Array system variables (e.g., @DTL_OBJNUM) cannot be used as list arrays.
 - The values in the list[ ] should be formatted into as many lines as are specified in list_size. In the example below, list_size is 5, thus five values from the list[ ] will be formatted if these ISL statements are executed.
 
-var list_size : N5 var list[ 10 ] : A20 txmsg list_size, list[]
+```isl
+var list_size : N5
+var list[ 10 ] : A20
+txmsg list_size, list[]
+```
 
 - Using the same example, if we let the [fs] symbol stand for the field separator and the message from PMS is: 5[fs]L1[fs]L2[fs]L3[fs]L4[fs]L5 then:
 
-listsize = 5 list[ 1 ] = "L1" list[ 2 ] = "L2" list[ 3 ] = "L3" list[ 4 ] = "L4" list[ 5 ] = "L5"
+```isl
+listsize = 5
+list[ 1 ] = "L1"
+list[ 2 ] = "L2"
+list[ 3 ] = "L3"
+list[ 4 ] = "L4"
+list[ 5 ] = "L5"
+```
 
 - The PMS should read the first value in the message and receive that many elements from the rest of the message. The RxMsg command reads the data from the message in a similar manner. For example:
 
-var listsize : N5 var list[ 10 ] : A20
+```isl
+var listsize : N5
+var list[ 10 ] : A20
 
 rxmsg listsize, list[]
+```
 
 If message from PMS is: 2[fs]L1[fs]L2,then:
 
-listsize = 2 list[1] = "L1" list[2] = "L2"
+```isl
+listsize = 2
+list[1] = "L1"
+list[2] = "L2"
+```
 
 If message from PMS is: 4[fs]L1[fs]L2[fs]L3[fs]L4, then:
 
-listsize = 4 list[1] = "L1" list[2] = "L2" list[3] = "L3" list[4] = "L4"
+```isl
+listsize = 4
+list[1] = "L1"
+list[2] = "L2"
+list[3] = "L3"
+list[4] = "L4"
+```
 
 In another example, the script collects a guest name from the operator, transmits the guest name to the PMS, receives a list of names from the PMS, and displays the list in a window:
 
-event inq : 1 var name : A20 input name, "Enter guest name" txmsg "GST_INQ", guest waitforrxmsg endevent
+```isl
+event inq : 1
+var name : A20
+input name, "Enter guest name"
+txmsg "GST_INQ", guest
+waitforrxmsg
+endevent
 
-event rxmsg : GST_RSP var guest_count : N5   //declare list size var guest_name[10] : A20   //declare list //receive up to 10 names rxmsg guest_count, guest_name[]
+event rxmsg : GST_RSP
+var guest_count : N5   //declare list size var guest_name[10] : A20   //declare list //receive up to 10 names rxmsg guest_count, guest_name[]
 
 //open up window window guest_count, 25, "Guest List" listdisplay 1, 1, guest_name //display names waitforclear endevent
+```
 
 - Lists can be intermingled with other non-list variables, as well as other lists. In the following example, one single variable and two lists, each with its size variable, are received from the PMS:
 
+```isl
 rxmsg status, guest_count, guest_name[],\ action_count, action_list[]
+```
 
 For each list, only one array may be assigned. It is possible, for example, for the PMS to send not only the guest name, but also the room number. One way to handle this would be to receive two lists within one message:
 
-```
+```isl
 event rxmsg : GST_RSP
-   var guest_count : N5
-   var guest_name[10] : A20
-   var guest_room[10] : N5
-   rxmsg guest_count, guest_name[], guest_count,\
-       guest_room[]
-   .
-   .
+  var guest_count : N5
+  var guest_name[10] : A20
+  var guest_room[10] : N5
+  rxmsg guest_count, guest_name[], guest_count,\
+  guest_room[]
+  .
+  .
 endevent
 ```
 
 Implicit List_Sizes There are occasions where the script writer may desire to use lists, but does not want to actually specify the list_size, since the list_size is not specified in the data. For example, assume that a PMS message contains 20 fields. In order for the ISL to read the message, a separate variable must be specified in the Rxmsg command for each field.
 
+```isl
 var n[20] : n5
 
 rxmsg n[1], n[2], n[3], n[4], n[5], n[6], n[7],\ n[8],\n[9], n[10], n[11], n[12], n[13], n[14], n[15],\ n[16], n[17], n[18], n[19], n[20]
+```
 
 The ISL provides a method for specifying list_sizes implicitly for those cases when the data does not contain a list_size. An implicit list_size is identified by a pound symbol (#) placed before the list_size. Alternatively, the example above could be written as:
 
-var n[20] rxmsg #20, n[]
+```isl
+var n[20]
+rxmsg #20, n[]
+```
 
 Only integer expressions may be placed in the implicit list_size field. Integer variables may also be used.
 
-var size : n2 = 20 var n[size] : n5 rxmsg #size, n[]
+```isl
+var size : n2 = 20
+var n[size] : n5
+rxmsg #size, n[]
+```
 
 Implicit list_sizes may be used anywhere standard list_sizes may be used.
 
@@ -1554,7 +1632,9 @@ Note that each record consists of a name followed by a room number.
 
 To receive the message above, use the following statement:
 
+```isl
 rxmsg count, name[] : room[]
+```
 
 In this case, the variables would be set as follows: count = 3 name[1] = "Smith" name[2] = "Smithers" name[3] = "Smithson" room[1] = 1423 room[2] = 1827 room[3] = 1887
 
@@ -1564,7 +1644,9 @@ A list specification is a special case of a record format, where each record con
 
 ISL allows the programmer to freely combine and assign variables of the different types. For example, it is possible to add a string and an integer, and assign it to a decimal value.
 
+```isl
 var amt : $10 amt = 12 + "25" + 100.45
+```
 
 Whenever two variables and/or constants are operated upon with an operator, and they are not the same types, one will be “promoted” (have its type changed) before the operation takes place.
 
@@ -1572,7 +1654,11 @@ Strings promote to integers and integers promote to decimal values. A final prom
 
 #### For example, if the following variables are declared
 
-var string : A20 var integer : N10 var decimal : $10
+```isl
+var string : A20
+var integer : N10
+var decimal : $10
+```
 
 Then the following statements are assigned within an Event procedure, the statements would be equivalent to:
 
@@ -1593,17 +1679,23 @@ decimal = "12.23" + 1             decimal = 13.00
 
 Strings are converted to integers by using the first digits in the string field. “12.35” converts to an integer 12, since “.” does not belong in an integer. “12NUM” also converts to 12. Therefore, it is legal to write:
 
+```isl
 integer = "ABC123"// integer = 0
+```
 
 Only relational operators are allowed between strings; see “Relational and Logical Operators” on page 4-5.
 
 #### Correct
 
+```isl
 integer = "12" > "35"
+```
 
 #### Incorrect
 
+```isl
 integer = "12" + "35
+```
 
 ## Getting Started with ISL Printing
 
@@ -1664,7 +1756,9 @@ When specifying a StartPrint command, you have two options for defining a printe
 
 Using Object Numbers All printing requires that a printer be specified by the StartPrint[WithStatus] commands. A printer can be identified either by its device table entry number (Object Number), a system variable, or a user-defined integer variable. For example, if the print job goes to device 8 in the Device Table, using the object number, the StartPrint command would be written as follows:
 
+```isl
 StartPrint 8
+```
 
 Although using this method is valid, it has a primary disadvantage. For instance, the destination printer for ISL print jobs may differ for each UWS. Thus, each script would need to specify the printer to which each UWS must print, limiting the flexibility of the script.
 
@@ -1751,15 +1845,17 @@ Considerations
 
 Example The following example illustrates how the same expression can be printed in four different ways by using a combination of these print directives:
 
-Printline “Print line”//prints in black
+```isl
+Printline "Print line"//prints in black
 
-Printline @redon, “Print line”//prints in red
+Printline @redon, "Print line"//prints in red
 
-Printline @dwon, “Print line”//prints in black,
+Printline @dwon, "Print line"//prints in black,
 
 // double-wide
 
-Printline @dwon, @redon, “Print line”//prints double- wide // in red ink
+Printline @dwon, @redon, "Print line"//prints double- wide // in red ink
+```
 
 
 ### Print Directives and Subroutines
@@ -1771,14 +1867,14 @@ The following example prints an array of data and displays a header using a prin
 ```isl
 sub print_list( var printer : N9, var listsize : N5, ref list[], ref header_string, var directive : A1 )
   if printer = 0
-    errormessage “Printer is 0. Cannot print.”
+    errormessage "Printer is 0. Cannot print."
     exitcancel
   endif
 
   startprint printer
-    printline “----------------------------”
+    printline "----------------------------"
     printline directive, header_string
-    printline “----------------------------”
+    printline "----------------------------"
     listprint listsize, list
   endprint
 endsub
@@ -1837,11 +1933,13 @@ Reference Strings
 
 Normally, ISL will leave this line blank. However, this reference line can be specified in both the StartPrint and StartPrintWithStatus commands.
 
+```isl
 STARTPRINT @chk   // use default backup STARTPRINT @chk, @rcpt // no reference line
 
 STARTPRINT @chk, @rcpt, "Printing Customer Coupon" //ref line
 
 STARTPRINTWITHSTATUS @chk   // no reference line STARTPRINTWITHSTATUS @chk, "Printing Customer Coupon" //ref line
+```
 
 ## Chapter 6: ISL System Variables
 
@@ -1879,10 +1977,12 @@ Specifying System Variables
 The example below is incorrect because the local variable ccnumber has the same name as the system variable @CCNUMBER, which returns a credit card account number.
 
 ```isl
-event : 1 var ccnumber : A16
+event : 1
+var ccnumber : A16
 // This problem can be corrected by replacing ccnumber with account_num, which is a user variable that represents the credit card account number, but is not a system variable.
 
-event : 1 var account_num : A16 . . .
+event : 1
+var account_num : A16 . . .
 ```
 
 - Always precede each system variable with an At @ character. Example: @SI[1]
@@ -2001,8 +2101,8 @@ A variety of ISL commands allow you to accomplish this type of formatting, using
 
 A format specifier is text enclosed in braces and appears directly after the variable or constant whose input/output behavior is affected. When defined, a format specifier changes the way that the variable or constant is input or output. For example, the following command will display the contents of the user variable guest_name in the prompt area. The format specifier appears directly after the guest_name variable.
 
-```
-PROMPT guest_name{ 20” }
+```isl
+PROMPT guest_name{ 20" }
 ```
 
 ### Types of Format Specifiers
@@ -2277,26 +2377,36 @@ phone_num {:Phone ‘# ###-###-####}          Phone # 301-788-4531
 
 It is possible to include format specifiers after each expression being formatted in one command. For example:
 
+```isl
 TXMSG room_number { 04 }, guest_name { <24 }, @cknum
+```
 
 Input and output specifiers may be used within the same syntax in the DisplayInput and DisplayMSInput commands only.
 
 In the example below, if we wanted the credit card number to be displayed, we would add a 019 after the star on the account_num line. This would display a 19-digit number (padded with zeroes) at the UWS.
 
+```isl
 event inq : 1
 
-var account_num: a19 var expiration_date: n4 var track2_data: a79
+var account_num: a19
+var expiration_date: n4
+var track2_data: a79
 
-window 3, 78 displaymsinput 1, 2, account_num{m2, 1, 1, *}, “Enter Account Number”,\
+window 3, 78
+displaymsinput 1, 2, account_num{m2, 1, 1, *}, "Enter Account Number",\
+```
 
 ```
                2, 2, expiration_date{m2, 2, 1, 4},
 “Enter Expiration”
 ```
 
-windowinput waitforclear
+```isl
+windowinput
+waitforclear
 
 endevent
+```
 
 ## APPENDIX A     Windows DLL Access
 
@@ -2477,7 +2587,9 @@ There are only three types of variables in SIM: integer, monetary, and string. T
 
 To pass by reference, place the string “ref” before the parameter. For example: // Pass by value DLLCall handle, my_function( count )
 
+```isl
 // Pass by reference DLLCall handle, my_function( ref count )
+```
 
 Only variables can be passed in by reference. Complex expressions must be passed in by value. // Will generate an error DLLCall handle, my_function( ref count + 1 ) DLLCall handle, my_function( ref (1 + 3 ) )
 
@@ -2523,7 +2635,11 @@ A-8                                                                           Wi
 
 #### By value examples
 
-var a:N9 = 4 var b:N10 = 3012108000 DLLCall handle, my_function( a, 10, (1 + a) * 10, b )
+```isl
+var a:N9 = 4
+var b:N10 = 3012108000
+DLLCall handle, my_function( a, 10, (1 + a) * 10, b )
+```
 
 #### The dll prototype should look as follows
 
@@ -2537,7 +2653,11 @@ By reference N1-N9 integers are passed in as pointers to a 32-bit value. The DLL
 
 #### By reference examples
 
-var a:N9 = 12 var b:N12 = 3012108000 DLLCall handle, my_function( ref a, ref b )
+```isl
+var a:N9 = 12
+var b:N12 = 3012108000
+DLLCall handle, my_function( ref a, ref b )
+```
 
 #### The dll prototype should look like
 
@@ -2557,7 +2677,10 @@ By value The string parameter is passed in as a pointer to a nul-terminated stri
 
 #### By value examples
 
-var a:A20 = “12345” DLLCall handle, my_function( a, “hello” )
+```isl
+var a:A20 = "12345"
+DLLCall handle, my_function( a, "hello" )
+```
 
 #### The dll prototype should look like
 
@@ -2571,7 +2694,9 @@ By reference The string parameter is passed in as a pointer to a nul-terminated 
 
 #### By reference example
 
+```isl
 var a:A20
+```
 
 #### DLLCall handle, my_function( ref a )
 
@@ -2615,15 +2740,19 @@ Array References All arrays are passed in as an array of pointers or integers. A
 
 N1-N9 numeric values are passed in as integers. var array[ 20 ] : N9
 
+```isl
 // Passing in by value. // DLL prototype should be: void my_function( int array[] ); DLLCall handle, my_function( array[] )
 
 // Passing in by reference. // DLL prototype should be: void my_function( int *array[] ); DLLCall handle, my_function( ref array[] )
+```
 
 All other types are passed in as strings. var array1[ 20 ] : $12 var array2[ 40 ] : A40
 
+```isl
 // Passing in by value // DLL prototype should be: // void my_function( char *array1[], char *array2[] ); DLLCall handle, my_function( array1[], array2[] )
 
 // Passing in by reference // DLL prototype should be: // void my_function( char *array1[], char *array2[] ); DLLCall handle, my_function( ref array1[], ref array2[])
+```
 
 ```
 A-12                                                                         Windows DLL Access
@@ -2693,28 +2822,41 @@ Sample File
               database:
 ```
 
+```isl
 var hODBCDLL : N12 = 0
 
-event inq : 1 var constatus : N9 var sql_cmd : A2000 var emp_id : A10 = “900” var fn : N12 = 0
+event inq : 1
+var constatus : N9
+var sql_cmd : A2000
+var emp_id : A10 = "900"
+var fn : N12 = 0
 
-// --------------------- Load SIMODBC.dll ------------------- if hODBCDLL = 0 DLLLoad hODBCDLL, “MDSSysUtilsProxy.dll endif
+// --------------------- Load SIMODBC.dll ------------------- if hODBCDLL = 0 DLLLoad hODBCDLL, "MDSSysUtilsProxy.dll endif
 
-if hODBCDLL = 0 exitwitherror “Unable to Load MDSSysUtilsProxy.dll” endif // -----------------------------------------------------------
-
+if hODBCDLL = 0
+exitwitherror "Unable to Load MDSSysUtilsProxy.dll"
+endif // -----------------------------------------------------------
 ```
+
+```isl
 // Connect to micros 3700 database
 DLLCALL_CDECL hODBCDLL, sqlIsConnectionOpen(ref constatus)
 if constatus = 0
-   DLLCALL_CDECL hODBCDLL, sqlInitConnection(“micros”,“ODBC;
-      UID=custom;PWD=custom”, ““)
+  DLLCALL_CDECL hODBCDLL, sqlInitConnection("micros","ODBC;
+  UID=custom;PWD=custom", "")
 endif
 ```
 
-sql_cmd = “select * from micros.mi_def”
+```isl
+sql_cmd = "select * from micros.mi_def"
+```
 
 DLLCALL_CDECL hODBCDLL, sqlGetRecordSet(sql_cmd) sql_cmd = ““ DLLCALL_CDECL hODBCDLL, sqlGetLastErrorString(ref sql_cmd) if (sql_cmd <> ““) ErrorMessage “Error From SQL -> “, sql_cmd endif
 
-sql_cmd = ““ DLLCALL_CDECL hODBCDLL, sqlGetFirst(ref sql_cmd)
+```isl
+sql_cmd = ""
+DLLCALL_CDECL hODBCDLL, sqlGetFirst(ref sql_cmd)
+```
 
 if sql_cmd = ““ exitwitherror “There Is No Matching Record” endif
 
@@ -2722,11 +2864,21 @@ if sql_cmd = ““ exitwitherror “There Is No Matching Record” endif
 B-4                                                                                    Database Access
 ```
 
-if (@WSTYPE <> 3) fopen fn, “sqldataout.txt”, Write else fopen fn, “\cf\micros\etc\sqldataout.txt”, Write endif
+```isl
+if (@WSTYPE <> 3)
+  fopen fn, "sqldataout.txt", Write
+else
+  fopen fn, "\cf\micros\etc\sqldataout.txt", Write
+endif
 
-while sql_cmd <> ““ fwrite fn, sql_cmd DLLCALL_CDECL hODBCDLL, sqlGetNext(ref sql_cmd) endwhile fclose fn
+while sql_cmd <> ""
+  fwrite fn, sql_cmd
+  DLLCALL_CDECL hODBCDLL, sqlGetNext(ref sql_cmd)
+endwhile
+fclose fn
 
-// Execute query that doesn’t return a recordset // -------------------------------------------------------
+// Execute query that doesn't return a recordset // -------------------------------------------------------
+```
 
 ```
 format sql_cmd as “update micros.emp_def   “, \
@@ -2734,7 +2886,9 @@ format sql_cmd as “update micros.emp_def   “, \
                   “ where id = 999”
 ```
 
+```isl
 DLLCALL_CDECL hODBCDLL, sqlExecuteQuery(sql_cmd)
+```
 
 sql_cmd = ““ DLLCALL_CDECL hODBCDLL, sqlGetLastErrorString(ref sql_cmd) if (sql_cmd <> ““) ErrorMessage “Error From SQL -> “, sql_cmd endif
 

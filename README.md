@@ -69,6 +69,24 @@ tools/isl.py lint [--fix] [--format json] [--strict] [--lines A-B] FILE.isl
 Set `isl_tools_path` / `isl_python` in `ISL.sublime-settings` to use another
 copy of the tools or interpreter.
 
+## Documentation
+
+A hyperlinked, syntax-highlighted site (the Guide split into chapters, plus every command, event,
+function, system variable, specifier, key and error message) is built with Sphinx from the markdown in
+`skills/micros-isl-language/isl-reference/`. The markdown is the single source; the reStructuredText is
+generated (`docs/_generated/`, git-ignored). The docs are not part of the Sublime package (`docs/` is
+`export-ignore`d, so Package Control does not download it).
+
+```bash
+pip install -r docs/requirements-docs.txt
+make -C docs html          # open docs/_build/html/index.html
+```
+
+Other Sphinx projects can link to it with intersphinx: point a mapping at the built site (a path or
+URL) and use either std labels, `` :ref:`TxMsg <isl:cmd-txmsg>` ``, or, with `docs/_ext` on `sys.path`
+and the `isl_domain` extension enabled, `` :isl:cmd:`isl:TxMsg` ``, `` :isl:sysvar:`isl:Cknum` ``,
+`` :isl:event:`isl:Inq` `` and `` :isl:fn:`isl:Mid` ``.
+
 ## Development
 
 `ISL.JSON-tmLanguage`, `ISL.tmLanguage` and `Symbol List.tmPreferences` are
