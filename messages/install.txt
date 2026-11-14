@@ -1,0 +1,18 @@
+MICROS ISL
+==========
+
+Syntax, symbol list, formatter and linter for MICROS RES Interactive Scripting Language (ISL) (*.isl).
+
+  * Cmd+R             symbol list (inquires show their // description)
+  * Cmd+B             lint and fix the file (or selection); F4 jumps to the next finding
+  * ISL: Format       command palette: re-indent the file (or selection)
+  * ISL: Lint         command palette: lint the file (or selection)
+
+The formatter and linter run with your system Python 3 (standard library only).
+If "ISL: Format" reports that python3 cannot be found, set the full path in
+Preferences > Package Settings > ISL > Settings:
+
+    { "isl_python": "/usr/bin/python3" }
+
+Already have .isl files open? Reset their syntax once with
+View > Syntax > Open all with current extension as... > ISL.

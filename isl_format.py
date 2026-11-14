@@ -7,6 +7,7 @@ isl_format_on_save.
 """
 
 import os
+import shutil
 import subprocess
 
 import sublime
@@ -76,13 +77,15 @@ class IslFormatCommand(sublime_plugin.TextCommand):
 
 
 class IslLintCommand(sublime_plugin.WindowCommand):
-    """Build-system target: lints the active file into the build output panel."""
+    """Build-system target: saves the active file if modified, then lints it into the output panel."""
 
     def run(self, fix=False, **kwargs):
         view = self.window.active_view()
         if not view or not view.file_name():
             sublime.status_message('ISL lint: save the file first')
             return
+        if view.is_dirty():
+            view.run_command('save')   # lint the file on disk so positions match the buffer
         cmd = [python(), tool_path('isl.py'), 'lint']
         lines = selected_lines(view)
         if lines and not fix:
@@ -101,3 +104,22 @@ class IslFormatOnSave(sublime_plugin.EventListener):
     def on_pre_save(self, view):
         if view.match_selector(0, 'source.isl') and view.settings().get('isl_format_on_save'):
             view.run_command('isl_format')
+
+
+def check_setup():
+    """Warn once if the bundled tools cannot run (missing python3 or tools)."""
+    problems = []
+    py = python()
+    if not (os.path.isfile(py) or shutil.which(py)):
+        problems.append('Python 3 not found (%r). Set "isl_python" in ISL.sublime-settings '
+                        'to the full path, e.g. /usr/bin/python3.' % py)
+    if not os.path.isfile(tool_path('isl.py')):
+        problems.append('isl.py not found at %s. If the package was installed as a '
+                        '.sublime-package, remove and reinstall it, or set "isl_tools_path".'
+                        % tool_path('isl.py'))
+    if problems:
+        sublime.error_message('ISL package setup:\n\n' + '\n\n'.join(problems))
+
+
+def plugin_loaded():
+    sublime.set_timeout_async(check_setup, 2000)

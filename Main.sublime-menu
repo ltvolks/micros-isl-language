@@ -1,0 +1,35 @@
+[
+    {
+        "caption": "Preferences",
+        "mnemonic": "n",
+        "id": "preferences",
+        "children": [
+            {
+                "caption": "Package Settings",
+                "mnemonic": "P",
+                "id": "package-settings",
+                "children": [
+                    {
+                        "caption": "ISL",
+                        "children": [
+                            {
+                                "caption": "README",
+                                "command": "open_file",
+                                "args": { "file": "${packages}/micros-isl-language/README.md" }
+                            },
+                            { "caption": "-" },
+                            {
+                                "caption": "Settings",
+                                "command": "edit_settings",
+                                "args": {
+                                    "base_file": "${packages}/micros-isl-language/ISL.sublime-settings",
+                                    "default": "// ISL user settings. Defaults are in the left pane.\n{\n\t$0\n}\n"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

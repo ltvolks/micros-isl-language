@@ -1,4 +1,17 @@
 [
     { "caption": "ISL: Format", "command": "isl_format" },
-    { "caption": "ISL: Lint", "command": "isl_lint" }
+    { "caption": "ISL: Lint", "command": "isl_lint" },
+    {
+        "caption": "Preferences: ISL Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/micros-isl-language/ISL.sublime-settings",
+            "default": "// ISL user settings. Defaults are in the left pane.\n{\n\t$0\n}\n"
+        }
+    },
+    {
+        "caption": "Preferences: ISL README",
+        "command": "open_file",
+        "args": { "file": "${packages}/micros-isl-language/README.md" }
+    }
 ]

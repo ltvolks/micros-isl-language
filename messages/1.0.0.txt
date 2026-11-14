@@ -1,0 +1,13 @@
+ISL 1.0.0
+=========
+
+Initial release - 2026-11-13
+
+  * Cmd+R             symbol list (inquires show their // description)
+  * Cmd+B             lint and fix the file (or selection); F4 jumps to the next finding
+  * ISL: Format       command palette: re-indent the file (or selection)
+  * ISL: Lint         command palette: lint the file (or selection)
+
+The formatter and linter one tool, tools/isl.py (fmt and lint).
+  * Format and lint work on a selection as well as the whole file.
+
