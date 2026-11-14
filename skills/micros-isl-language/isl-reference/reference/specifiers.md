@@ -15,7 +15,9 @@ Source: RES 3700 SIM Online Help (CHM). Each entry starts with `## ` and the pag
 Data being typed in by the operator should not be echoed back to the display.
 
 **(-) Specifier Example**
+```isl
 Input auth_code{-}, "Enter authorization code"
+```
 
 ---
 
@@ -32,8 +34,10 @@ start: starting offset (character) within the field; for example, if you want to
 count: number of characters to be read from the start (first character) to the end of the field (place an asterisk * to include all characters)
 
 **(Mn, field, start, count | *) Specifier Example:**
+```isl
 Input auth_code{ M2,1,3,10 }, \
 "Enter authorization code"
+```
 
 ---
 
@@ -47,7 +51,9 @@ Input auth_code{ M2,1,3,10 }, \
 Specify the track number (n = 2) and what data to read from the magnetic card. For use with the Input, InputKey, DisplayInput, and DisplayMSInput commands only. The M character is case-insensitive.
 
 **(Mn,*) Specifier Example**
+```isl
 Input auth_code{ M2,* }, "Enter authorization code"
+```
 
 ---
 

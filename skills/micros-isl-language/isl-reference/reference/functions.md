@@ -15,20 +15,24 @@ Abs
 This function returns the absolute value of the integer or decimal value.
 
 ### Syntax
+```text
 Abs (integer or decimal)
+```
 
 ### Argument/Description
 **integer**  - an integer expression to be converted
 **decimal**  - a decimal expression to be converted
 
 **Abs Example**
+```isl
 event inq : 1
-var int : N5 = -145
-var mon : $8 = -12.35
-waitforclear abs(int) //will display `145'
-waitforclear abs(mon) //will display `12.35'
-waitforclear abs("-34") //will display error
+  var int : N5 = -145
+  var mon : $8 = -12.35
+  waitforclear abs(int) //will display `145'
+  waitforclear abs(mon) //will display `12.35'
+  waitforclear abs("-34") //will display error
 endevent
+```
 
 ---
 
@@ -42,15 +46,19 @@ ArraySize
 This function returns the size (number of elements) of the array passed in.
 
 ### Syntax
+```text
 ArraySize (array_name)
+```
 
 ### Argument/Description
 **array_name**  - the name of the array
 
 **ArraySize Usage**
 The array name must be placed between the parentheses without brackets. For example, the following references are illegal:
+```isl
 arraysize (list [ ])
 arraysize (list [2])
+```
 
 The following entry is correct:
 arraysize(list)
@@ -58,12 +66,14 @@ arraysize(list)
 **ArraySize Example**
 The following subroutine returns the declared size (number of elements) of an array.
 
+```isl
 sub array_size
-var array_test[100] : a50
-waitforclear "Size of array_test is ", arraysize(array_test)
+  var array_test[100] : a50
+  waitforclear "Size of array_test is ", arraysize(array_test)
 
-//Would prompt "Size of array_test is 100"
+  //Would prompt "Size of array_test is 100"
 endsub
+```
 
 ---
 
@@ -77,7 +87,9 @@ Asc
 This function returns the ASCII integer value of the first character of the string passed in.
 
 ### Syntax
+```text
 Asc (string_expression)
+```
 
 ### Argument/Description
 **string_expression**  - a place holder for text characters such as a user_variable (string)
@@ -88,16 +100,20 @@ The process of returning a value with the Asc function works opposite of the Chr
 **Asc Example**
 The following subroutine displays the ASCII value of the first character of a string:
 
+```isl
 sub asc_value
-var asc_val : n3
-asc_val = asc("MICROS")
-waitforclear "The ascii value of M = ", asc_val
-//Would prompt "The ascii value of M = 77"
+  var asc_val : n3
+  asc_val = asc("MICROS")
+  waitforclear "The ascii value of M = ", asc_val
+  //Would prompt "The ascii value of M = 77"
 endevent
+```
 
 See also:
 
+```isl
 Chr Function
+```
 
 ---
 
@@ -111,7 +127,9 @@ Bit
 This function will return the value (0 or 1) of a bit in a hexadecimal string.
 
 ### Syntax
+```text
 Bit (hex_string, bit_position)
+```
 
 ### Argument/Description
 **hex_string**  - a place holder for the hexadecimal string that will be examined
@@ -119,7 +137,9 @@ Bit (hex_string, bit_position)
 
 **Bit Usage**
 The Bit function will generate an error if the string passed in contains non-hex characters. For example, the following statement will generate an error since the = character is not a hex digit:
+```isl
 i = gethex( "12AB=" )
+```
 Valid hex digits are 0-9, A-F, and a-f.
 The bit_positions are numbered consecutively from 1. In the example below, a four-digit hexadecimal number would have bits numbered from 1 to 16. The digit values are determined by the standard hexadecimal assignment of bit values, i.e., within each digit, bit 1 = 8, bit 2 = 4, bit 3 = 2, bit 4 = 1.
 
@@ -134,7 +154,9 @@ bit value |  0 |  0 |  0 |  1 |  0 |  0 |  1 |  0 |  1 |  1 |  1 |  1 |  1 |  1 
 **Bit Example**
 In the below example, the following command would result in i being set to 1.
 
+```isl
 i = bit("12FE", 7) //i will be set to 1
+```
 
 Thus in all hex_strings, bit_position 1 corresponds to the highest bit value in the first of the string.
 
@@ -150,7 +172,9 @@ Chr
 This function returns a one-character string that is the ascii character representation of the integer passed in.
 
 ### Syntax
+```text
 Chr (integer)
+```
 
 ### Argument/Description
 integer - an integer in the range from 32 to 255
@@ -161,21 +185,23 @@ This function returns the ascii value of the specified integer.
 **Chr Example**
 The following subroutine constructs the name of a POS company using ASCII values:
 
+```isl
 sub make_name
-var ascii_array[6] : n3
-var pos_king : a6
-var arr_cnt : n3
-ascii_array[1] = 77
-ascii_array[2] = 73
-ascii_array[3] = 67
-ascii_array[4] = 82
-ascii_array[5] = 79
-ascii_array[6] = 83
-for arr_cnt = 1 to 6 //Count through the array
-format pos_king as pos_king, chr(ascii_array[arr_cnt])
-endfor
-waitforclear "The POS king is ", pos_king
+  var ascii_array[6] : n3
+  var pos_king : a6
+  var arr_cnt : n3
+  ascii_array[1] = 77
+  ascii_array[2] = 73
+  ascii_array[3] = 67
+  ascii_array[4] = 82
+  ascii_array[5] = 79
+  ascii_array[6] = 83
+  for arr_cnt = 1 to 6 //Count through the array
+    format pos_king as pos_king, chr(ascii_array[arr_cnt])
+  endfor
+  waitforclear "The POS king is ", pos_king
 endsub
+```
 
 See also:
 
@@ -192,7 +218,9 @@ ClearChkID
 This command will clear the guest check ID and set it to null in the database.
 
 ### Syntax
+```text
 CLEARCHKID
+```
 
 ---
 
@@ -206,7 +234,9 @@ ClearChkInfo
 This command clears any check information detail lines that have not been written to the database.
 
 ### Syntax
+```text
 ClearChkInfo
+```
 
 **ClearChkInfo Usage**
 Check information detail is a type of check detail that can be stored in the database via the SaveChkInfo command. Typically, check information detail lines are used to store customer information such as name and address, so that it can print on a guest check or a remote order device.
@@ -218,19 +248,21 @@ Refer to the detailed description of SaveChkInfo for a discussion of check infor
 **ClearChkInfo Example**
 The subroutine below requires that the operator input a string five times, then prompts the operator to confirm saving the information. If the operator responds by pressing the [Clear] key, the check information detail is discarded; otherwise, the information is saved.
 
+```isl
 sub get_info
-var string : A20
-var answer : N5
-var i : N5
-for i = 1 to 5
-input string, "Enter string ", i
-savechkinfo string
-endfor
-getenterorclear answer, "Save information?"
-if answer = 0
-clearchkinfo
-endif
+  var string : A20
+  var answer : N5
+  var i : N5
+  for i = 1 to 5
+    input string, "Enter string ", i
+    savechkinfo string
+  endfor
+  getenterorclear answer, "Save information?"
+  if answer = 0
+    clearchkinfo
+  endif
 endsub
+```
 
 See also:
 
@@ -249,12 +281,13 @@ ClearRearArea
 Command to clear the rear display and reset the @sustaincustomtext SIM variable.
 
 **ClearRearArea Example:**
+```isl
 event SignIn
-event inq = 1
-DisplayRearArea = “Hello”
-WaitForClear “Press clear to clear display”
-ClearRearArea
+  DisplayRearArea = “Hello”
+  WaitForClear “Press clear to clear display”
+  ClearRearArea
 endevent
+```
 
 ---
 
@@ -268,12 +301,14 @@ DisplayRearArea
 Command to display up to 40 characters in the rear display until the end of the event unless the @sustaincustomtext SIM variable is used.
 
 **DisplayRearArea Example**
+```isl
 event SignIn
-var msg: a80 = “ “
-@sustaincustomtext = 1
-format msg as @tremp, “signed in”
-DisplayRearArea msg
+  var msg: a80 = “ “
+  @sustaincustomtext = 1
+  format msg as @tremp, “signed in”
+  DisplayRearArea msg
 endevent
+```
 
 ---
 
@@ -290,14 +325,18 @@ This function will display the touchscreen specifed in the argument field. The a
 Takes One Argument
 
 ### Syntax
+```text
 displayTouchscreen <N>
 N = the number of touchscreens to be displayed.
+```
 
 **DisplayTouchscreen Example**
+```isl
 event inq : 1
-var tsObjectNum : n7 = 301
-DisplayTouchScreen tsObjectNum
+  var tsObjectNum : n7 = 301
+  DisplayTouchScreen tsObjectNum
 endevent
+```
 
 ---
 
@@ -320,7 +359,9 @@ Feof
 This function tests whether the file pointer is at the end of the file.
 
 ### Syntax
+```text
 Feof (file_number)
+```
 
 ### Argument/Description
 **file_number**  - an integer variable which was assigned in the FOpen statement when the file was opened
@@ -330,10 +371,11 @@ A 1 is returned if there is no more data left to read, and a 0 is returned if th
 
 **Feof Example**
 The following example shows how to use the Feof function as the condition of a While command:
+```isl
 while not feof( fn )
-call process_data( fn )
-.
+  call process_data( fn )
 endwhile
+```
 
 See also:
 
@@ -355,7 +397,9 @@ FTell
 This function returns the file position in a file.
 
 ### Syntax
+```text
 FTell (file_number)
+```
 
 ### Argument/Description
 **file_number**  - an integer variable which was assigned in the FOpen statement when the file was opened
@@ -363,16 +407,18 @@ FTell (file_number)
 **FTell Example**
 The following example will read a certain field position:
 
+```isl
 sub find_emp
-while not feof( fn )
-current_position = ftell( fn ) //Remember this position.
-fread fn, emp_number, * //Read first field.
-if emp_number = target_emp_number //If match, reposition back
-fseek fn, current_position // to original position and
-return // let calling function
-endif // reread data.
-endwhile
+  while not feof( fn )
+    current_position = ftell( fn )    // Remember this position.
+    fread fn, emp_number, *           // Read first field.
+    if emp_number = target_emp_number // If match, reposition back
+      fseek fn, current_position      // to original position and
+      return                          // let calling function
+    endif                             // reread data.
+  endwhile
 endsub
+```
 
 See also:
 
@@ -398,22 +444,28 @@ GetHex
 This function will convert a Hex string to a decimal integer.
 
 ### Syntax
+```text
 GetHex (hex_string)
+```
 
 ### Argument/Description
 **hex_string**  - the string to be converted
 
 **GetHex Usage**
 The GetHex function will generate an error if the string passed in contains non-hex characters. The following statement will generate an error since the = character is not a hex digit, for example:
+```isl
 i = gethex( "12AB=" )
+```
 A string should be made up of any combination of the following characters 0-9, a - f, or A - F.
 
 **GetHex Example**
 The following subroutine converts a hex string to its decimal equivalent:
+```isl
 sub hex_2_dec
-var hex_str : a4 = "FFFF"
-waitforclear "The decimal equiv of 'FFFF' is ", gethex(hex_str)
+  var hex_str : a4 = "FFFF"
+  waitforclear "The decimal equiv of 'FFFF' is ", gethex(hex_str)
 endsub
+```
 
 ---
 
@@ -428,7 +480,9 @@ This function will return the remaining amount of a menu item that can be discou
 For example, use this function to apply a discount to the menu items that are the most heavily taxed.
 
 **GetMaxDiscount Example**
+```isl
 GetMaxDiscount (detail_index, disc_obj_num)
+```
 
 ---
 
@@ -442,7 +496,9 @@ Instr
 This function will return the index of the first occurrence of a character in a string.
 
 ### Syntax
+```text
 Instr (index, string_expression, character)
+```
 
 ### Argument/Description
 **index**  - starting position of the search for the specified character string_expression - the string_expression to be searched; can be one of the following: user_variable, system_variable, constant, string, function, equation
@@ -450,7 +506,9 @@ Instr (index, string_expression, character)
 
 **Instr Example**
 The following statement will set i equal to 5, since "E" is the 5th character in the string:
+```isl
 i = instr( 2, "ABCDEFGHIJ", "E" ) //i will be set to 5
+```
 
 ---
 
@@ -464,7 +522,9 @@ KDS Functions
 This function is used for processing KDS-related functions.
 
 ### Syntax
+```text
 Key_Type_Function(35)
+```
 
 **Variables**
 Key_KDS_Done_Order(1)
@@ -481,7 +541,9 @@ Key Function
 This function will execute the key function code defined.
 
 ### Syntax
+```text
 Key (key_pair)
+```
 
 ### Argument/Description
 key_pair - a link to a specific UWS key in the form of key_type or key_number
@@ -495,15 +557,19 @@ Click here to view key names and key codes.
 
 The following script begins a check by number, then orders several menu items and prints the check:
 
+```isl
 event inq : 1
-loadkybdmacro key (11,400), \ //Begin check
-key (1, 552), key(1,554), key (1,555),\ //Order Menu Items
-key (7, 101) //Service Total check
+  loadkybdmacro key (11,400), \ //Begin check
+  key (1, 552), key(1,554), key (1,555),\ //Order Menu Items
+  key (7, 101) //Service Total check
 endevent
+```
 
 See also:
 
+```isl
 KeyNumber Function
+```
 
 KeyType Function
 
@@ -519,7 +585,9 @@ KeyNumber Function
 This function will return the key number (integer) portion of a key expression.
 
 ### Syntax
+```text
 KeyNumber (key_expression)
+```
 
 ### Argument/Description
 **key_expression**  - an expression that can be one of the following: @KEY ...system_variable, user_variable (KeyType), Key function
@@ -528,18 +596,22 @@ KeyNumber (key_expression)
 
 The following script reports the number and type of the [Enter] key:
 
+```isl
 event inq : 1
-var key_var : a20 = "9,12"
-window 3, 26
-display 1, 2, "Enter key's key pair is", key_var
-display 1, 2, "Enter key's key type is", keytype(key_var)
-display 1, 2, "Enter key's key number is", keynumber(key_var) //keynumber = 12
-waitforclear
+  var key_var : a20 = "9,12"
+  window 3, 26
+  display 1, 2, "Enter key's key pair is", key_var
+  display 1, 2, "Enter key's key type is", keytype(key_var)
+  display 1, 2, "Enter key's key number is", keynumber(key_var) //keynumber = 12
+  waitforclear
 endevent
+```
 
 See also:
 
+```isl
 Key Function
+```
 
 KeyType Function
 
@@ -555,7 +627,9 @@ KeyType Function
 This function will return the key type (integer) portion of a key expression.
 
 ### Syntax
+```text
 KeyType (key_expression)
+```
 
 ### Argument/Description
 **key_expression**  - an expression that can be one of the following: @KEY system_variable, user_variable (KeyType), Key function
@@ -564,22 +638,26 @@ KeyType (key_expression)
 
 The following script reports the number and type of the [Enter] key:
 
+```isl
 event inq : 1
-var key_var : a20 = "9,12"
-window 3, 26
-display 1, 2, "Enter key's key pair is", key_var
-display 1, 2, "Enter key's key type is", keytype(key_var)//key_type = 9
-display 1, 2, "Enter key's key number is", keynumber(key_var)
-waitforclear
+  var key_var : a20 = "9,12"
+  window 3, 26
+  display 1, 2, "Enter key's key pair is", key_var
+  display 1, 2, "Enter key's key type is", keytype(key_var)//key_type = 9
+  display 1, 2, "Enter key's key number is", keynumber(key_var)
+  waitforclear
 endevent
+```
 
 See also:
 
 KDS Functions
 
+```isl
 Key Function
 
 KeyNumber Function
+```
 
 ---
 
@@ -593,7 +671,9 @@ Len
 This function is used to determine the length of a string or string variable.
 
 ### Syntax
+```text
 Len (string_expression)
+```
 
 ### Argument/Description
 **string_expression**  - the string length to be returned
@@ -601,23 +681,25 @@ Len (string_expression)
 **Len Example**
 The following script takes a list of names from the PMS and tests each name for its length. It then builds a window and displays the names. The longest string determines the width of the window.
 
+```isl
 event rxmsg : guest_list
-var guest_list_size : n3
-var guest_list[14] : a78
-var arrcnt : n3
-var longestr : n3
-rxmsg guest_list_size, guest_list[] //Receive size and list from PMS
-for arrcnt = 1 to guest_list_size //Count through the array to
-if longestr < len(guest_list[arrcnt]) // find the longest member.
-longestr = len(guest_list[arrcnt]) //If this member is longer than
-endif // the longest so far, set
-endfor // longestr equal to its length.
-window guest_list_size, longestr + 2 //Build the window as high as
-for arrcnt = 1 to guest_list_size // the number of guests in the
-display arrcnt, 2, guest_list[arrcnt] // list and as wide as the
-endfor // longest guest name + 2.
-waitforclear //Display the names and wait
+  var guest_list_size : n3
+  var guest_list[14] : a78
+  var arrcnt : n3
+  var longestr : n3
+  rxmsg guest_list_size, guest_list[] //Receive size and list from PMS
+  for arrcnt = 1 to guest_list_size //Count through the array to
+    if longestr < len(guest_list[arrcnt]) // find the longest member.
+      longestr = len(guest_list[arrcnt]) //If this member is longer than
+    endif // the longest so far, set
+  endfor // longestr equal to its length.
+  window guest_list_size, longestr + 2 //Build the window as high as
+  for arrcnt = 1 to guest_list_size // the number of guests in the
+    display arrcnt, 2, guest_list[arrcnt] // list and as wide as the
+  endfor // longest guest name + 2.
+  waitforclear //Display the names and wait
 endevent // for user to press clear.
+```
 
 ---
 
@@ -631,7 +713,9 @@ MakeKeys Function
 This function turns characters into keystrokes. It is designed to be used with the LoadKybdMacro command.
 
 ### Syntax
+```text
 MakeKeys (string_expression)
+```
 
 ### Argument/Description
 **string_expression**  - a string or user_variable (string) that will be treated as keystrokes by the system
@@ -641,15 +725,17 @@ This function can only be used with the LoadKybdMacro command.
 
 The following script receives authorization from the PMS, in the form of that employee's MICROS ID, then proceeds to clock the employee in:
 
+```isl
 event rxmsg : emp_clock_in
-var micros_emp_id : a10
-var clock_in_key : key
-clock_in_key = key(11, 833) //Assign key pair for clock in var
-rxmsg micros_emp_id //Receive the id of the employee to
-// clock in from PMS then load the macro and clock the employee in.
-loadkybdmacro clock_in_key, makekeys(micros_emp_id),\
-@KEY_ENTER, @KEY_ENTER, @KEY_ENTER
+  var micros_emp_id : a10
+  var clock_in_key : key
+  clock_in_key = key(11, 833) //Assign key pair for clock in var
+  rxmsg micros_emp_id //Receive the id of the employee to
+  // clock in from PMS then load the macro and clock the employee in.
+  loadkybdmacro clock_in_key, makekeys(micros_emp_id),\
+  @KEY_ENTER, @KEY_ENTER, @KEY_ENTER
 endevent
+```
 
 See also:
 
@@ -667,7 +753,9 @@ Mid Function
 This function is used to extract text from a string. Note: This function is not to be confused with the Mid command.
 
 ### Syntax
+```text
 Mid (string_expression, start, count)
+```
 
 ### Argument/Description
 **string_expression**  - a string or user_variable (string) start the starting offset (character) within the field
@@ -678,6 +766,7 @@ This command is similar to the BASIC language "mid$" function.
 
 **Mid Function Example**
 The following subroutine searches a string for a specified character, starting at a specified place in the string, then returns the location of the character. The extracted text is compared to the desired characters. This example assumes that the calling routine declares the following four variables, and defines the first three:
+```isl
 //start : n3 position in string to start search, 1 if not defined
 // string :a?? string to search
 // search_char :a1 character to search for
@@ -686,20 +775,23 @@ The following subroutine searches a string for a specified character, starting a
 // string; it will be 0 if search_char is not found
 
 sub instr
-if start <= 0 //If user didn't define start set it = 1
-start = 1
-endif
-for charpos = start to len(string)
-if search_char = mid(string, charpos, 1) //If we find the search_char, return the charpos
-return
-endif
-endfor
-charpos = 0 //If not found, set charpos = 0
+  if start <= 0 //If user didn't define start set it = 1
+    start = 1
+  endif
+  for charpos = start to len(string)
+    if search_char = mid(string, charpos, 1) //If we find the search_char, return the charpos
+      return
+    endif
+  endfor
+  charpos = 0 //If not found, set charpos = 0
 endsub
+```
 
 See also:
 
+```isl
 Mid Command
+```
 
 ---
 
@@ -712,9 +804,11 @@ One_Time_Auto_Discounts
 Indicates that the [Add Auto Discounts] key was used and automatic discounts were added to the check.
 
 **One_Time_Auto_Discounts Example**
+```isl
 event SignIn
-One_Time_Auto_Discounts
+  One_Time_Auto_Discounts
 endevent
+```
 
 ---
 
@@ -727,9 +821,11 @@ Remove_Auto_Discounts
 Indicates that the [Remove Auto Discounts] key was pressed and that discounts were removed.
 
 **Remove_Auto_Discounts Example**
+```isl
 event SignIn
-Remvoe_Auto_Discounts
+  Remvoe_Auto_Discounts
 endevent
+```
 
 ---
 
@@ -743,7 +839,9 @@ ToInteger
 This function returns an integer from a decimal value by removing the decimal point. This assumes that the new value will be interpreted correctly; i.e., the PMS will know where the decimal is placed.
 
 ### Syntax
+```text
 ToInteger (decimal)
+```
 
 ### Argument/Description
 **decimal**  - a decimal expression to be converted
@@ -752,11 +850,13 @@ ToInteger (decimal)
 The decimal point will be removed when returned.
 
 **ToInteger Example**
+```isl
 event inq : 1
-var n : N5
-n = 12.45 //n will equal `12'
-n = tointeger( 12.45 ) //n will equal `1245'
+  var n : N5
+  n = 12.45 //n will equal `12'
+  n = tointeger( 12.45 ) //n will equal `1245'
 endevent
+```
 
 ---
 
@@ -770,18 +870,22 @@ Trim
 This function is used to remove leading and trailing spaces from text or variable fields.
 
 ### Syntax
+```text
 Trim (string_expression)
+```
 
 ### Argument/Description
 **string_expression**  - a string or user_variable (string)
 
 **Trim Example**
 The following subroutine trims leading and trailing spaces from a string:
+```isl
 sub trim_spaces
-var string : a32 = " many spaces "
-var trimmed_str : a11
-trimmed_str = trim(string) //Result would be "many spaces"
+  var string : a32 = " many spaces "
+  var trimmed_str : a11
+  trimmed_str = trim(string) //Result would be "many spaces"
 endsub
+```
 
 ---
 
@@ -795,16 +899,22 @@ VarSize
 This function returns the declared size of a variable.
 
 ### Syntax
+```text
 VarSize (user_variable)
+```
 
 ### Argument/Description
 **user_variable**  - the name of the user_variable to be "sized"
 
+```isl
 VarSize Example
+```
 The following script displays the declared size of a very large string:
 
+```isl
 event inq : 12
-var big_string : a200
-waitforclear "BIG_STRING'S size is ", varsize(big_string)
-//would prompt "BIG_STRING'S size is 200"
+  var big_string : a200
+  waitforclear "BIG_STRING'S size is ", varsize(big_string)
+  //would prompt "BIG_STRING'S size is 200"
 endevent
+```

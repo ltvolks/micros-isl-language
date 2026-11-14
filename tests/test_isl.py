@@ -155,3 +155,10 @@ def test_lint_lines_filter(tmp_path, capsys):
     assert 'a.isl:2' not in capsys.readouterr().out
     isl.main(['lint', '--lines', '2-2', str(f)])
     assert 'a.isl:2' in capsys.readouterr().out
+
+
+def test_use_commands_known():
+    for cmd in ('usefiltereddetail', 'useunfiltereddetail', 'useislformat', 'usecompatformat',
+                'useisltimeouts', 'usestdtimeouts', 'display_rear_area', 'displayreararea'):
+        assert cmd in isl.KNOWN_COMMANDS
+        assert 'L001' not in codes(f'event init\n  {cmd}\nendevent\n')

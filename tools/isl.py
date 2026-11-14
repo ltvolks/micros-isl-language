@@ -58,7 +58,7 @@ LOOPS = {'for', 'forever', 'while'}
 KNOWN_COMMANDS = set("""
 break call cleararray clearchkid clearchkinfo clearislts clearkybdmacro
 clearreararea continueoncancel debug discardglobalvar display display_rear_area
-displayinput displayinverse displayislts displaymsinput displayrearea
+displayinput displayinverse displayislts displaymsinput displayreararea
 displaytouchscreen dllcall dllcall_cdecl dllfree dllload editdetail errorbeep
 errormessage exitcancel exitcontinue exitoncancel exitwitherror fclose fopen
 format formatbuffer formatq fread freadbfr freadln fseek fwrite fwritebfr
@@ -67,8 +67,8 @@ listdisplay listinput listprint loaddbkybdmacro loadkybdmacro loadmaginfo
 lowercase makeascii mid msleep printline prompt prorate regidleevent
 retainglobalvar return rxmsg savechkinfo saverefinfo setisltskey setisltskeyx
 setsignonleft setsignonright setstring split splitq system test_dsvc
-touchscreen txmsg uppercase usecompatformat useisformat usefilteredetail
-useunfilteredetail useisltimeouts usestdtimeouts var voiddetail waitforclear
+touchscreen txmsg uppercase usecompatformat useislformat usefiltereddetail
+useunfiltereddetail useisltimeouts usestdtimeouts var voiddetail waitforclear
 waitforconfirm waitforenter waitforrxmsg window windowedit windowinput
 windoweditwithsave windowinputwithsave windowclear windowclose windowscrolldown
 windowscrollup beep
