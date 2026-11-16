@@ -1,6 +1,7 @@
 """Sphinx domain ``isl``: commands, events, functions, system variables, ...
 
-* ``.. isl:command:: Break`` (etc.) registers an entry; the generator emits one per section.
+* Every ``## Title`` section of ``reference/<page>.md`` (commands, events, ...) is registered as an
+  entry by ``read_reference`` below; the markdown is read by MyST as it is.
 * Roles ``:isl:cmd:``, ``:isl:event:``, ``:isl:fn:``, ``:isl:sysvar:``, ``:isl:spec:``,
   ``:isl:err:``, ``:isl:key:`` and the type-agnostic ``:isl:ref:`` link to entries.
 * Entries are exported in objects.inv, so another project can use intersphinx. Without any extension
@@ -17,41 +18,20 @@ import sys
 from pathlib import Path
 
 from docutils import nodes
-from docutils.parsers.rst import directives
 from sphinx import addnodes
 from sphinx.domains import Domain, ObjType
 from sphinx.roles import XRefRole
-from sphinx.util.docutils import SphinxDirective
 from sphinx.util.nodes import make_refnode
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import isl_names  # noqa: E402
-from isl_names import PRIORITY, TYPES  # noqa: E402
-
-
-class IslMarker(SphinxDirective):
-    """Registers the entry for the enclosing section (renders nothing)."""
-
-    required_arguments = 1
-    final_argument_whitespace = True
-    option_spec = {'anchor': directives.unchanged_required}
-
-    def run(self):
-        objtype = self.name.split(':')[-1]
-        name = self.arguments[0].strip()
-        anchor = self.options['anchor']
-        domain = self.env.get_domain('isl')
-        domain.note_object(objtype, name, anchor, self.env.docname)
-        label = TYPES[objtype][3]
-        index_node = addnodes.index(entries=[('single', f'{name} ({label.lower()})', anchor, '', None)])
-        return [index_node]
+from isl_names import PAGE_INTROS, PAGE_TITLES, PAGE_TYPE, PRIORITY, TYPES  # noqa: E402
 
 
 class IslDomain(Domain):
     name = 'isl'
     label = 'ISL'
     object_types = {t: ObjType(v[3], v[2]) for t, v in TYPES.items()}
-    directives = {v[1]: IslMarker for v in TYPES.values()}
     roles = {**{v[2]: XRefRole() for v in TYPES.values()}, 'ref': XRefRole()}
     initial_data = {'objects': {}}      # (objtype, name) -> (docname, anchor)
     data_version = 1
@@ -120,12 +100,153 @@ class IslDomain(Domain):
         return node.get('reftarget')
 
 
+# ---------------------------------------------------------------- reference pages (plain markdown)
+
+def _norm(text):
+    return re.sub(r'[\s*]+', '', text).lower()
+
+
+def read_reference(app, doctree):
+    """doctree-read: turn each ``##`` section of a reference page into an ``isl`` domain entry.
+
+    Adds the stable label (``cmd-break``), the domain object, an index entry, and removes the page
+    name that the source repeats under the heading.
+    """
+    docname = app.env.docname
+    if docname.startswith('guide/'):
+        return read_guide(app, doctree, docname)
+    if not docname.startswith('reference/'):
+        return
+    page = docname.split('/', 1)[1]
+    objtype = PAGE_TYPE.get(page)
+    top = doctree.next_node(nodes.section)
+    if not objtype or top is None:
+        return
+    prefix, human = TYPES[objtype][0], TYPES[objtype][3]
+    domain, std = app.env.get_domain('isl'), app.env.get_domain('std')
+    index = app.env.get_domain('index')
+
+    top[0].children = [nodes.Text(PAGE_TITLES[page])]
+    page_label = f'isl-{page}'
+    top['ids'].insert(0, page_label)
+    std.labels[page_label] = (docname, page_label, PAGE_TITLES[page])
+    std.anonlabels[page_label] = (docname, page_label)
+
+    # the source's own preamble ("Source: ... grep ^## ...") is for Claude; show a one-line intro instead
+    top.children = [top[0], nodes.paragraph('', PAGE_INTROS[page].replace('``', ''))] + \
+        [c for c in top.children[1:] if isinstance(c, nodes.section)]
+    for c in top.children:
+        c.parent = top
+
+    seen = {}
+    for sec in [c for c in top.children if isinstance(c, nodes.section)]:
+        title = sec[0].astext().strip()
+        if title == CATEGORY_INDEX:
+            categorise(sec)
+            continue
+        base = f'{prefix}-{isl_names.slug(title)}'
+        seen[base] = seen.get(base, 0) + 1
+        label = base if seen[base] == 1 else f'{base}-{seen[base]}'
+        sec['ids'].insert(0, label)
+        std.labels[label] = (docname, label, title)
+        std.anonlabels[label] = (docname, label)
+        domain.note_object(objtype, title, label, docname)
+        for child in list(sec.children[1:]):
+            if isinstance(child, nodes.raw) and child.astext().lstrip().startswith('<!--'):
+                sec.remove(child)               # "<!-- src: ... -->" provenance comment
+                continue
+            if isinstance(child, nodes.comment):
+                continue
+            if isinstance(child, nodes.paragraph) and _norm(child.astext()) == _norm(title):
+                sec.remove(child)
+            break
+        entry = ('single', f'{title} ({human.lower()})', label, '', None)
+        sec.insert(1, addnodes.index(entries=[entry]))
+        # the index domain has already scanned this document by now, so register the entry directly
+        index.entries.setdefault(docname, []).append(entry)
+
+
+CATEGORY_INDEX = 'Commands by category'
+
+
+def categorise(sec):
+    """Turn the ``### Category`` + bullet lists of a "by category" section into links to the entries.
+
+    The names stay plain markdown in the source; here each one becomes a cross-reference (resolved by
+    the domain, so ``Event...EndEvent`` and friends match their titles) and the section is marked for
+    the two-column layout in ``_static/isl.css``.
+    """
+    sec['classes'].append('isl-categories')
+    for item in sec.findall(nodes.list_item):
+        para = item[0]
+        name = para.astext().strip()
+        xref = addnodes.pending_xref('', nodes.Text(name), refdomain='isl', reftype='ref', reftarget=name,
+                                     refexplicit=False, refwarn=True)
+        para.children = [xref]
+        xref.parent = para
+        item['classes'].append('isl-category-item')
+
+
+def read_guide(app, doctree, docname):
+    """Stable labels for the guide: ``guide-<page>`` and, in the glossary, ``glossary-<term>``."""
+    std = app.env.get_domain('std')
+    top = doctree.next_node(nodes.section)
+    if top is None:
+        return
+    page = docname.split('/', 1)[1]
+    label = f'guide-{page}'
+    top['ids'].insert(0, label)
+    std.labels[label] = (docname, label, top[0].astext())
+    std.anonlabels[label] = (docname, label)
+    if page == 'glossary':
+        for sec in [c for c in top.children if isinstance(c, nodes.section)]:
+            title = sec[0].astext().strip()
+            gl = f'glossary-{isl_names.slug(title)}'
+            sec['ids'].insert(0, gl)
+            std.labels[gl] = (docname, gl, title)
+            std.anonlabels[gl] = (docname, gl)
+
+
+SEE_ALSO = re.compile(r'^\s*See also:?\s*', re.I)
+
+
+def _items(text):
+    return [i.strip().rstrip('.').strip() for line in text.split('\n') for i in line.split(';') if i.strip()]
+
+
+def see_also(app, doctree, docname, domain):
+    """Turn ``See also:`` paragraphs (and the paragraphs of names that follow) into a linked list."""
+    glossary = {v[2].lower(): (True, 'glossary', v[2], v[0], v[1]) for k, v in app.env.get_domain('std').labels.items()
+                if k.startswith('glossary-')} if docname.startswith('guide/') else {}
+    for para in list(doctree.findall(nodes.paragraph)):
+        if para.parent is None or not SEE_ALSO.match(para.astext()):
+            continue
+        items = _items(SEE_ALSO.sub('', para.astext(), count=1))
+        parent = para.parent
+        pos = parent.index(para)
+        consumed = [para]
+        for sib in parent.children[pos + 1:]:
+            if not isinstance(sib, nodes.paragraph) or (sib.children and isinstance(sib.children[0], nodes.strong)):
+                break
+            items += _items(sib.astext())
+            consumed.append(sib)
+        if not items:
+            continue
+        bullets = nodes.bullet_list(bullet='*')
+        for item in items:
+            hit = glossary.get(item.lower()) or domain.find(item) \
+                or domain.find(re.sub(r'\s+(Function|Command|Event)$', '', item))
+            content = _link(app, docname, hit, nodes.Text(item)) if hit else nodes.Text(item)
+            bullets += nodes.list_item('', nodes.paragraph('', '', content))
+        parent[pos:pos + len(consumed)] = [nodes.rubric('', 'See also'), bullets]
+
+
 # ---------------------------------------------------------------- auto-linking
 
 CAMEL = re.compile(r'(?<![\w@])(@\s?[A-Za-z_]\w*|[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+|'
                    r'[A-Z][a-z0-9]+(?:[A-Z][A-Za-z0-9]*)+)(?![\w])')
 SKIP_PARENTS = (nodes.reference, nodes.literal_block, nodes.title, nodes.raw, addnodes.desc_signature,
-                nodes.strong, nodes.rubric, nodes.term)
+                nodes.strong, nodes.rubric, nodes.term, nodes.comment)
 TOKEN_SPAN = re.compile(r'<span class="(k|nf|n|nb)">(@?[A-Za-z_][\w]*|@ [A-Za-z_]\w*)</span>')
 
 
@@ -144,6 +265,9 @@ def autolink(app, doctree, docname):
     domain = app.env.get_domain('isl')
     if not domain.data['objects']:
         return                      # a consuming project (intersphinx): nothing local to link to
+
+    if docname.startswith(('reference/', 'guide/')):
+        see_also(app, doctree, docname, domain)
 
     # 1. prose and literals
     for text_node in list(doctree.findall(nodes.Text)):
@@ -207,5 +331,6 @@ def _ancestors(node):
 
 def setup(app):
     app.add_domain(IslDomain)
+    app.connect('doctree-read', read_reference)
     app.connect('doctree-resolved', autolink)
     return {'parallel_read_safe': False, 'version': '1.0'}

@@ -13,7 +13,7 @@ Searchable markdown lives in `isl-reference/` (see `INDEX.md`). Look up before w
 - Command: `grep -n -i -A40 '^## <Name>$' isl-reference/reference/commands.md`
 - Event: `.../events.md`; system variable (`@Name`): `.../sysvars.md`; function: `.../functions.md`
 - Specifiers: `.../specifiers.md`; key names: `.../keys.md`; error text: `.../errors.md`
-- Concepts: `.../guide.md` (2004 guide; the CHM-derived files win on conflict)
+- Concepts: `isl-reference/guide/*.md`, one file per chapter (`chapter-1.md` .. `chapter-7.md`, `appendix-a.md`, `appendix-b.md`, `glossary.md`; 2004 guide, the CHM-derived files win on conflict). Search all: `grep -rn -i '<term>' isl-reference/guide`
 
 If the reference folder is missing, ask for it. Do not guess command syntax.
 

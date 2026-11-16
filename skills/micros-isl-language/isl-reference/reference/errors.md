@@ -412,7 +412,7 @@ This message occurs if the start of a line contained invalid text.
 ```isl
 display 2, 3, "Line"
 ```
-*waitclear //* is invalid
+`*waitclear //*` is invalid
 
 ---
 

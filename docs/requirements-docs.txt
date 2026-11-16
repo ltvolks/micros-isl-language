@@ -1,3 +1,4 @@
 sphinx>=7
 furo
 sphinxcontrib-mermaid
+myst-parser>=4

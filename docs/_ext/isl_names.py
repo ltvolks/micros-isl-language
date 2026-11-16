@@ -1,4 +1,4 @@
-"""Name handling shared by docs/build_rst.py and the isl Sphinx domain.
+"""Name handling shared by the isl Sphinx domain and the tests.
 
 The reference titles entries like ``If...Else[If]...EndIf`` or ``Use[Compat/ISL]Format``;
 ``aliases()`` expands those into the words that appear in scripts so that code and prose can
@@ -19,6 +19,18 @@ TYPES = {
     'key': ('key', 'key', 'key', 'Key names', 'keys'),
 }
 PAGE_TYPE = {v[4]: k for k, v in TYPES.items()}
+PAGE_TITLES = {'commands': 'Commands', 'events': 'Events', 'functions': 'Functions',
+               'sysvars': 'System variables', 'specifiers': 'Specifiers', 'errors': 'Error messages',
+               'keys': 'Key names and codes'}
+PAGE_INTROS = {
+    'commands': 'Language commands: syntax, arguments, usage and examples.',
+    'events': 'Events a script can handle, with syntax and examples.',
+    'functions': 'Built-in functions.',
+    'sysvars': 'System variables (``@Name``) that scripts can read or set.',
+    'specifiers': 'Input and output format specifiers.',
+    'errors': 'Run-time error messages and what causes them.',
+    'keys': 'Key names, key types and key codes.',
+}
 PRIORITY = ['command', 'function', 'event', 'sysvar', 'specifier', 'error', 'key']
 
 # Ordinary English words: never linked in running prose, only inside code/literals.

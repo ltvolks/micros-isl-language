@@ -111,9 +111,7 @@ endevent
 
 See also:
 
-```isl
 Chr Function
-```
 
 ---
 
@@ -143,13 +141,13 @@ i = gethex( "12AB=" )
 Valid hex digits are 0-9, A-F, and a-f.
 The bit_positions are numbered consecutively from 1. In the example below, a four-digit hexadecimal number would have bits numbered from 1 to 16. The digit values are determined by the standard hexadecimal assignment of bit values, i.e., within each digit, bit 1 = 8, bit 2 = 4, bit 3 = 2, bit 4 = 1.
 
-Digit Position |  1 |  2 |  3 |  4 |
+| Digit Position | 1 | 2 | 3 | 4 |
+| --- | --- | --- | --- | --- |
+| digit value | 1 | 2 | F | E |
 
-bit_position |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |  10 |  11 |  12 |  13 |  14 |  15 |  16 |
-
-digit value |  1 |  2 |  F |  E |
-
-bit value |  0 |  0 |  0 |  1 |  0 |  0 |  1 |  0 |  1 |  1 |  1 |  1 |  1 |  1 |  1 |  0 |
+| bit_position | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| bit value | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 0 |
 
 **Bit Example**
 In the below example, the following command would result in i being set to 1.
@@ -546,12 +544,12 @@ Key (key_pair)
 ```
 
 ### Argument/Description
-key_pair - a link to a specific UWS key in the form of key_type or key_number
+key_pair - a link to a specific UWS key in the form of (KeyType, KeyNumber)
 
 ### Usage
-The key_type determines the type of key (e.g., Function, Keypad); the key_number designates the specific Key Code.
+The KeyType determines the type of key (e.g., Function, Keypad); the KeyNumber designates the specific Key Code.
 
-Click here to view key names and key codes.
+See [Key Names, Key Types and Key Codes](keys) for detailed reference.
 
 **Key Example**
 
@@ -567,9 +565,7 @@ endevent
 
 See also:
 
-```isl
 KeyNumber Function
-```
 
 KeyType Function
 
@@ -609,9 +605,7 @@ endevent
 
 See also:
 
-```isl
 Key Function
-```
 
 KeyType Function
 
@@ -789,9 +783,7 @@ endsub
 
 See also:
 
-```isl
 Mid Command
-```
 
 ---
 

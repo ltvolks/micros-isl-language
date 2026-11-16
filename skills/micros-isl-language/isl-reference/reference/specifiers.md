@@ -118,7 +118,7 @@ Hexadecimal; displays numerics in hexadecimal format
 
 <!-- src: Input_Specifiers.htm -->
 
-Input Specifiers         <body> <p>This page uses frames, but your browser doesn't support them.</p> </body>
+Input Specifiers
 
 ---
 
@@ -161,7 +161,7 @@ Octal; displays numerics in octal format
 
 <!-- src: Output_Specifiers.htm -->
 
-Output Specifiers         <body> <p>This page uses frames, but your browser doesn't support them.</p> </body>
+Output Specifiers
 
 ---
 

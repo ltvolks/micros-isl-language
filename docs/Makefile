@@ -3,16 +3,14 @@ SPHINXBUILD ?= sphinx-build
 PYTHON      ?= python3
 BUILDDIR    = _build
 
-.PHONY: html clean generate linkcheck
+.PHONY: html clean linkcheck
 
-generate:
-	$(PYTHON) build_rst.py
-
-html: generate
+html:
 	$(SPHINXBUILD) -W --keep-going -b html . $(BUILDDIR)/html
+	open $(BUILDDIR)/html/index.html
 
-linkcheck: generate
+linkcheck:
 	$(SPHINXBUILD) -b linkcheck . $(BUILDDIR)/linkcheck
 
 clean:
-	rm -rf $(BUILDDIR) _generated
+	rm -rf $(BUILDDIR)

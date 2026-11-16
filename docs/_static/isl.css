@@ -2,3 +2,11 @@
 .highlight a.isl-autolink { color: inherit; text-decoration: underline dotted; }
 .highlight a.isl-autolink:hover { text-decoration: underline; }
 a.isl-autolink { text-decoration-style: dotted; }
+
+/* "by category" index: each category spans the full width and its names flow into two columns */
+section.isl-categories > section { margin-bottom: 1rem; border-bottom-style: solid; border-bottom-width: 1px; padding-bottom: 1rem;}
+section.isl-categories h3 { margin: 0 0 .25rem; font-size: 1rem; }
+section.isl-categories ul { margin: 0; padding-left: 1.1rem; list-style: none; column-count: 2; column-gap: 2.5rem; }
+section.isl-categories li { margin: 0; line-height: 1.45; break-inside: avoid; }
+section.isl-categories li > p { margin: 0; }
+@media (max-width: 40rem) { section.isl-categories ul { column-count: 1; } }

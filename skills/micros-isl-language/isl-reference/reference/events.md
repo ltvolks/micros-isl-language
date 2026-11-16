@@ -330,6 +330,110 @@ endevent
 
 ---
 
+## Event mi
+
+<!-- src: POS Configurator Help -->
+
+Event mi
+
+This event will be executed every time a menu item is entered through the POS (e.g., through touchscreen, Number Look UP (NLU), or direct key
+
+> **Note:** It is unclear which system variables may be available. 9700 shows these may be possible for the `mi_*` events
+> - @obj: object number of item
+> - @qty: quantity of item
+> - @ttl: total amount of item
+
+
+### Syntax
+```text
+Event mi
+```
+
+**Event mi Example**
+
+```isl
+Event mi
+  infomessage "Menu Item added to the check"
+EndEvent
+```
+---
+
+## Event mi_error_correct_items
+
+<!-- src: POS Configurator Help -->
+
+Event mi_error_correct_items
+
+This event will be executed every time a menu item is entered through the POS (e.g., through touchscreen, Number Look UP (NLU), or direct key
+
+### Syntax
+```text
+Event mi_error_correct_items
+```
+
+**Event mi_error_correct_items Example**
+
+```isl
+Event mi_error_correct_items
+  infomessage "Menu Item correction to the check"
+EndEvent
+```
+
+This event will be executed every time items are cleared in POS operations. This event is executed only once, regardless of the amount of items that are cleared at one time
+
+---
+
+## Event mi_return
+
+<!-- src: POS Configurator Help -->
+
+Event mi_return
+
+This event will be executed every time a menu item is entered through the POS (e.g., through touchscreen, Number Look UP (NLU), or direct key
+
+### Syntax
+```text
+Event mi_return
+```
+
+**Event mi_return Example**
+
+```isl
+Event mi_return
+  infomessage "Menu Item returned"
+EndEvent
+```
+
+This event will be executed every time a menu item is returned
+
+---
+
+## Event mi_void_items
+
+<!-- src: POS Configurator Help -->
+
+Event mi_void_items
+
+This event will be executed every time a menu item is entered through the POS (e.g., through touchscreen, Number Look UP (NLU), or direct key
+
+### Syntax
+```text
+Event mi_void_items
+```
+
+**Event mi_void_items Example**
+
+```isl
+Event mi_void_items
+  infomessage "Menu Item voided"
+EndEvent
+```
+
+This event will be executed only once, regardless of the amount of items that are voided at one time.
+
+
+---
+
 ## Event Pickup_Check
 
 <!-- src: Command_Event Pickup_Check.htm -->
@@ -753,14 +857,17 @@ endevent
 
 Event Trans_Cncl
 
-### Syntax
-```text
-Event Trans_Cncl
-- This event executes when the transaction cancel key is pressed.
+This event executes when the transaction cancel key is pressed.
 - If Event Trans_Cncl is not present in the script, no error will occur.
 - When the Event Trans_Cncl is executed, ISL will execute the event for each script linked to a PMS Computer.
 - There is no event_ID field for the Event Trans_Cncl.
+
+### Syntax
+```text
+Event Trans_Cncl
 ```
+
+
 
 **Event Trans_Cncl Example**
 This is an example of the Event Trans_Cncl.

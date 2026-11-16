@@ -2,6 +2,150 @@
 
 Source: RES 3700 SIM Online Help (CHM). Each entry starts with `## ` and the page name; grep `^## ` for an index.
 
+
+## Commands by category
+
+<!-- src: Command_Category_*.htm -->
+
+### Communications
+
+- GetRxMsg
+- RxMsg
+- TxMsg
+- Use[Compat/ISL]Format
+- Use[ISL/STD]TimeOuts
+- WaitForRxMsg
+
+### File I/O
+
+- FClose
+- FOpen
+- FRead
+- FReadBfr
+- FReadLn
+- FSeek
+- FWrite
+- FWriteBfr
+- FWriteLn
+
+### Flow control
+
+- Break
+- Call
+- ContinueOnCancel
+- Event...EndEvent
+- ExitCancel
+- ExitContinue
+- ExitOnCancel
+- ExitWithError
+- For...EndFor
+- ForEver...EndFor
+- If...Else[If]...EndIf
+- MSleep
+- Return
+- Sub... EndSub
+- WaitForClear
+- WaitForConfirm
+- WaitForEnter
+- While...EndWhile
+
+### Input / Output
+
+- Beep
+- ClearIslTs
+- Display
+- DisplayInput
+- DisplayInverse
+- DisplayIslTs
+- DisplayMSInput
+- EditDetail
+- ErrorBeep
+- ErrorMessage
+- GetEnterOrClear
+- InfoMessage
+- Input
+- InputKey
+- ListDisplay
+- ListInput
+- Prompt
+- RegIdleEvent
+- SetIslTsKeyx
+- Touchscreen
+- VoidDetail
+- Window
+- WindowClear
+- WindowClose
+- Window[Edit/Input][WithSave]
+- WindowScrollDown
+- WindowScrollUp
+
+### Miscellaneous
+
+- DLLCall
+- DLLCall_CDECL
+- DLLFree
+- DLLLoad
+- Item Discount
+- LoadDbKybdMacro
+- LoadKybdMacro
+- LoadMAGInfo
+- SaveChkInfo
+- SaveRefInfo
+
+### Printing
+
+- LineFeed
+- ListPrint
+- PrintLine
+- StartPrint[WithStatus]...EndPrint[FF/NOFF]
+
+### Variables
+
+- ClearArray
+- DiscardGlobalVar
+- Event Pretender
+- Format
+- FormatBuffer
+- FormatQ
+- LowerCase
+- MakeAscii
+- Mid
+- ProRate
+- RetainGlobalVar
+- SetSignOn[Left/Right]
+- SetString
+- Split
+- SplitQ
+- System
+- UpperCase
+- UseFilteredDetail
+- UseUnFilteredDetail
+- Var
+
+---
+
+## Beep
+
+<!-- src: Command_Beep.htm -->
+
+Beep
+
+### Function
+
+This command can be used to sound the beeper at a UWS. It should be used for operator confirmation or notification. Note that a separate ErrorBeep command is provided to notify the operator of errors.
+
+### Syntax
+
+```text
+Beep
+```
+
+**Beep Usage**
+
+The Disable Error Beep option in the User Workstation form is ignored when this command is used.
+
+See also: ErrorBeep
+
 ---
 
 ## Break
@@ -389,194 +533,11 @@ Command to clear the rear display and reset the @sustaincustomtext SIM variable.
 
 ```isl
 event SignIn
-event inq = 1
-DisplayRearArea = "Hello"
-WaitForClear "Press clear to clear display"
-ClearRearArea
+  DisplayRearArea = "Hello"
+  WaitForClear "Press clear to clear display"
+  ClearRearArea
 endevent
 ```
-
----
-
-## Command Category Communications
-
-<!-- src: Command_Category_Communications.htm -->
-
-GetRxMsg
-RxMsg
-TxMsg
-Use[Compat/ISL]Format
-Use[ISL/STD]TimeOuts
-WaitForRxMsg
-
----
-
-## Command Category File I/O
-
-<!-- src: Command_Category_File_I_O.htm -->
-
-FClose
-FOpen
-FRead
-FReadBfr
-FReadLn
-FSeek
-FWrite
-FWriteBfr
-FWriteLn
-
----
-
-## Command Category Flow control
-
-<!-- src: Command_Category_Flow_control.htm -->
-
-Break
-Call
-ContinueOnCancel
-Event...EndEvent
-ExitCancel
-ExitContinue
-ExitOnCancel
-ExitWithError
-For...EndFor
-ForEver...EndFor
-If...Else[If]...EndIf
-
-```isl
-MSleep
-Return
-Sub... EndSub
-WaitForClear
-WaitForConfirm
-WaitForEnter
-While...EndWhile
-```
-
----
-
-## Command Category Input / Output
-
-<!-- src: Command_Category_Input_Output.htm -->
-
-Beep
-ClearIslTs
-Display
-DisplayInput
-DisplayInverse
-DisplayIslTs
-DisplayMSInput
-EditDetail
-ErrorBeep
-ErrorMessage
-GetEnterOrClear
-InfoMessage
-Input
-InputKey
-ListDisplay
-ListInput
-Prompt
-RegIdleEvent
-SetIslTsKeyx
-Touchscreen
-VoidDetail
-Window
-WindowClear
-WindowClose
-Window[Edit/Input][WithSave]
-WindowScrollDown
-WindowScrollUp
-
----
-
-## Command Category Miscellaneous
-
-<!-- src: Command_Category_Miscellaneous.htm -->
-
-DLLCall
-DLLCall_CDECL
-DLLFree
-DLLLoad
-Item Discount
-LoadDbKybdMacro
-LoadKybdMacro
-LoadMAGInfo
-SaveChkInfo
-SaveRefInfo
-
----
-
-## Command Category Printing
-
-<!-- src: Command_Category_Printing.htm -->
-
-LineFeed
-ListPrint
-PrintLine
-StartPrint[WithStatus]...EndPrint[FF/NOFF]
-
----
-
-## Command Category Variables
-
-<!-- src: Command_Category_Variables.htm -->
-
-ClearArray
-
-```isl
-DiscardGlobalVar
-Event Pretender
-Format
-FormatBuffer
-FormatQ
-LowerCase
-MakeAscii
-Mid
-ProRate
-RetainGlobalVar
-SetSignOn[Left/Right]
-SetString
-Split
-SplitQ
-
-System
-UpperCase
-UseFilteredDetail
-UseUnFilteredDetail
-Var
-```
-
----
-
-## Command: Beep
-
-<!-- src: Command_Beep.htm -->
-
-Beep
-
-### Function
-
-This command can be used to sound the beeper at a UWS. It should be used for operator confirmation or notification. Note that a separate ErrorBeep command is provided to notify the operator of errors.
-
-### Syntax
-
-```text
-Beep
-```
-
-**Beep Usage**
-
-The Disable Error Beep option in the User Workstation form is ignored when this command is used.
-
-See also: ErrorBeep
-
----
-
-## Commands by Category
-
-<!-- src: Command_by_Category.htm -->
-
-Commands by Category       <body> <p>This page uses frames, but your browser doesn't support them.</p> </body>
 
 ---
 
@@ -982,13 +943,11 @@ endevent
 
 See also:
 
-```isl
 Len Function
 
 Window
 
 Window[Edit/Input][WithSave]
-```
 
 ---
 
@@ -1299,23 +1258,32 @@ Event...EndEvent
 
 ___________________________________________________________________________________
 
-Event Begin_Check |  Event Idle_No_Trans |  Event Svc |
-
-Event ClockIn |  Event Init |  Event Svc_Error_Correct_Items |
-
-Event ClockOut |  Event Inq |  Event Svc_Void |
-
-Event Dsc |  Event Pickup_Check |  Event Tmed |
-
-Event Dsc_Error_Correct_Items |  Event Print_Header/Trailer |  Event Tndr |
-
-Event Dsc_Void |  Event Rxmsg |  Event Tndr_Error_Correct Items |
-
-Event Dtl_Changed |  Event SignIn |  Event Tndr_Void |
-
-Event Exit |  Event SignOut |  Event Trans_Cncl |
-
-Event Final_Tender |  Event Srvc_Total |    |
+- Event Begin_Check
+- Event Idle_No_Trans
+- Event Svc
+- Event ClockIn
+- Event Init
+- Event Svc_Error_Correct_Items
+- Event ClockOut
+- Event Inq
+- Event Svc_Void
+- Event Dsc
+- Event Pickup_Check
+- Event Tmed
+- Event Dsc_Error_Correct_Items
+- Event Print_Header/Trailer
+- Event Tndr
+- Event Dsc_Void
+- Event Rxmsg
+- Event Tndr_Error_Correct Items
+- Event Dtl_Changed
+- Event SignIn
+- Event Tndr_Void
+- Event Exit
+- Event SignOut
+- Event Trans_Cncl
+- Event Final_Tender
+- Event Srvc_Total
 
 ___________________________________________________________________________________
 
@@ -1790,7 +1758,6 @@ endevent
 
 See also:
 
-```isl
 Break
 
 ExitCancel
@@ -1798,7 +1765,6 @@ ExitCancel
 ExitContinue
 
 Return
-```
 
 ---
 
@@ -2611,7 +2577,6 @@ endevent
 
 See also:
 
-```isl
 Event RxMsg
 
 RxMsg
@@ -2625,7 +2590,6 @@ WaitForConfirm
 WaitForEnter
 
 WaitForRxMsg
-```
 
 ---
 
@@ -3332,13 +3296,11 @@ endevent
 
 See also:
 
-```isl
 Key Function
 
 LoadDBKybdMacro
 
 MakeKeys Function
-```
 
 ---
 
@@ -3589,11 +3551,9 @@ endsub
 
 See also:
 
-```isl
 Chr Function
 
 StartPrint[WithStatus]...EndPrint[FF/NoFF]
-```
 
 ---
 
@@ -4354,13 +4314,11 @@ endevent
 
 See also:
 
-```isl
 Chr Function
 
 Format
 
 SplitQ
-```
 
 ---
 
@@ -4398,13 +4356,11 @@ SplitQ string_to_split, field_sep_char, user_variable or list_spec [, user_varia
 
 See also:
 
-```isl
 Chr Function
 
 Format
 
 Split
-```
 
 ---
 
@@ -4455,7 +4411,7 @@ ISL Printer Table:
 | @CHK |  Guest check |  Roll |  Optional|  Yes |  Yes |
 | @CHK |  Guest check |  Slip |  No|  Yes | No |
 | @JNL |  Journal |  Roll |  Optional |  No |  Yes |
-| @ORDR#<br/>(where # is 1-15 and refers to the appropriate order device) |  Order (local/remote) |  Roll |  Optional|  Yes |  Yes |
+| @ORDR# (where # is 1-15 and refers to the appropriate order device) |  Order (local/remote) |  Roll |  Optional|  Yes |  Yes |
 | @ORDR# |  Order (local/remote) |  Slip |  No|  Yes | No |
 | @VALD |  Validation |  Roll |  Optional|  Yes |  Yes |
 | @VALD |  Validation |  Slip |  No|  Yes | No |
@@ -4793,7 +4749,7 @@ TxMsg expression[{output_specifier}][, expression[{output_specifier}] ...]
 
 - The TxMsg command must be followed by the WaitForRxMsg or GetRxMsg command.
 - If more than one field is required, multiple expressions must be separated by commas. These commas will be replaced in the message received by the interfaced system by field separator characters (ASCII 1CH).
-- A statement may continue over multiple lines by including the line continuation character (\) at the end of each line. The line continuation character is very useful as TxMsg commands tend to be very lengthy.
+- A statement may continue over multiple lines by including the line continuation character (`\`) at the end of each line. The line continuation character is very useful as TxMsg commands tend to be very lengthy.
 
 **TxMsg Example**
 
@@ -5472,7 +5428,7 @@ WaitForEnter
 
 ---
 
-## While
+## While...EndWhile
 
 <!-- src: Command_While...EndWhile.htm -->
 

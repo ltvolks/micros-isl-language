@@ -9,10 +9,10 @@ and so do the names used in examples.
    :maxdepth: 2
    :caption: Guide
 
-   _generated/guide/index
+   guide_index
 
 .. toctree::
    :maxdepth: 2
    :caption: Reference
 
-   _generated/reference_index
+   reference_index

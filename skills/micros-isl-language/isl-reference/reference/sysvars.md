@@ -727,7 +727,7 @@ EndEvent
 
 <!-- src: System_Variable_Reference_by_Category.htm -->
 
-Commands by Category       <body> <p>This page uses frames, but your browser doesn't support them.</p> </body>
+Commands by Category
 
 ---
 
@@ -1882,7 +1882,9 @@ event inq : 7
 endevent
 ```
 
-{button ,Alink(Numdtlt, , , )} See Also
+See also:
+
+Numdtlt
 
 ---
 
@@ -2341,146 +2343,119 @@ A8
 - This system variable is Read-Only.
 - The array limits for the expression are 1 to @Numdtlt.
 
-Dtl_status is a hexadecimal field. Using the items below** you must convert the hex number to the appropriate status bit. Note that there are some items using the same number. When this is the case, the dtl type is different so that you would never have the same status bit available at the same time.
+Dtl_status is a hexadecimal field. Using the items below you must convert the hex number to the appropriate status bit. Note that there are some items using the same number. When this is the case, the dtl type is different so that you would never have the same status bit available at the same time.
 
 **Dtl_Status Example**
 If dtl_status returned A0100000 then the A in the 1st digit would mean DTL_PREV_RND is set and DTL_NLU_USED is set.
 
-**1st digit**  |
+**1st digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_PREV_RND | 1 |  |
+| DTL_MASK | 2 |  |
+| DTL_NLU_USED | 3 |  |
+| DTL_RETURN | 4 |  |
+| DTL_CHANGE | 4 |  |
+
+**2nd digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_VOID | 5 |  |
+| DTL_REF_FOLLOWS | 6 |  |
+| DTL_CA_INIT_AUTH | 7 | CA Only |
+| DTL_MODIFIED_BY_PLAIN | 7 | MI Only RES 4.5: Plain support |
+| DTL_CA_AUTH_AND_PAYED | 8 | CA Only |
+| DTL_MODIFIED_BY_ALL | 8 | MI Only RES 4.5: All support |
+
+**3rd digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_SVC | 9 | DSVC ONLY |
+| DTL_EXMPT_SVC_TTL | 9 | SVC TTL ONLY |
+| DTL_SCNDRY_AUTH | 9 | CA AUTH ONLY |
+| DTL_MODIFIED_BY_NO | 9 | MI ONLY |
+| DTL_PRV_RND_VOID | 10 |  |
+| DTL_PREV_ROUND_CHANGE | 11 |  |
+| DTL_ERROR_CORRECT | 12 |  |
+
+**4th digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_PL_GST_CHK | 13 |  |
+| DTL_ITEM_SHARED | 14 |  |
+| DTL_VOID_EDIT | 15 |  |
+| DTL_FIXED_PRICE_COURSE | 16 |  |
+
+**5th digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_LI_VOID_NOT_ALLOWED | 17 |  |
+| DTL_GROUP_START | 18 |  |
+| DTL_ITEM_FROM_LDS | 19 |  |
+| DTL_DEBIT_FLAG | 20 | TENDERS W/ CA AUTH ONLY |
+| DTL_REQUIRED_CONDIMENT | 20 | MI ONLY CRS 5-4-98 |
+| DTL_CA_AVAIL_BALANCE | 20 | CA AUTH ONLY |
+| DTL_CASCADE_REMOVE | 20 | DSC ONLY |
+
+**6th digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_CUR_CNV_ACTIVE | 21 |  |
+| DTL_CA_TAX1_EXMPT | 21 |  |
+| DTL_BVG_AFT_PROMPT | 21 | MI ONLY |
+| DTL_TAX_SHIFT | 22 | MI & REF ONLY |
+| DTL_CA_TAX2_EXMPT | 22 |  |
+| DTL_ON_HOLD | 23 | MI, DSVC, TMED ONLY |
+| DTL_CA_TAX3_EXMPT | 23 |  |
+| DTL_CA_TAX4_EXMPT | 24 |  |
+| DTL_OVRDE_TAX_W_QTY_GROUP | 24 | MI Only |
+
+**7th digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_CA_TAX5_EXMPT | 25 |  |
+| DTL_THAI_INVOICE | 25 | TMED ONLY |
+| DTL_CA_TAX6_EXMPT | 26 |  |
+| DTL_THAI_ACCOUNT | 26 | TMED ONLY |
+| DTL_CA_TAX7_EXMPT | 27 |  |
+| DTL_CA_TAX8_EXMPT | 28 |  |
+
+**8th digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_OVERTENDER_CHG_TIP | 29 |  |
+| DTL_SKU_ENTRY | 30 | MI DTL ONLY |
+| DTL_CC_VCHR_CANCELLED | 30 | VOUCHER DTL ONLY |
+| DTL_AUTOMATIC_DISCOUNT | 30 | DSC ONLY |
+| DTL_PRICE_OVERRIDE | 31 |  |
+| DTL_IS_DIRECT_VOID | 32 | BPD 2-10-98 |
+
+**9th digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_PRICE_FROM_NLU_FILE | 33 | CRS 2-2-99 V2.60 Retail Barcode Support |
+| DTL_PRICE_FROM_BARCODE | 34 | CRS 2-2-99 V2.60 Retail Barcode Support |
+| DTL_BARCODE_ENTRY | 35 | CRS 2-5-99 V2.60 Retail Barcode Support |
+| DTL_PRINTED_ON_L_BY_L_RMT | 36 | CPR 7-26-2000 V3.0 Combo Meals Support |
+
+**10th digit**
+
+| Define | Bit | Note |
+| --- | --- | --- |
+| DTL_NO_RPT_COUNT | 37 | 3.2-SP7: Item has been split, report count must always be 0 |
+| DTL_DISCOUNT_COUPON | 38 | DSC ONLY |
+| DTL_PRINTED_ON_L_BY_L_RCPT | 39 |  |
+| DTL_UNUSED_40 | 40 | RES 4.0: Encryption support |
 
-#define DTL_PREV_RND  |  1 |
-
-#define DTL_MASK  |  2 |
-
-#define DTL_NLU_USED |  3 |
-
-#define DTL_RETURN |  4 |
-
-#define DTL_CHANGE  |  4 |
-
-**2nd digit**  |
-
-#define DTL_VOID |  5 |
-
-#define DTL_REF_FOLLOWS |  6 |
-
-#define DTL_CA_INIT_AUTH |  7 |  /* CA Only */ |
-
-#define DTL_MODIFIED_BY_PLAIN |  7 |  /* MI Only RES 4.5: Plain support */ |
-
-#define DTL_CA_AUTH_AND_PAYED |  8 |  /* CA Only */ |
-
-#define DTL_MODIFIED_BY_ALL |  8 |  /* MI Only RES 4.5: All support */ |
-
-**3rd digit**  |
-
-#define DTL_SVC  |  9 |   /* DSVC ONLY */ |
-
-#define DTL_EXMPT_SVC_TTL  |  9 |  /* SVC TTL ONLY */ |
-
-#define DTL_SCNDRY_AUTH  |  9 |  /* CA AUTH ONLY */ |
-
-#define DTL_MODIFIED_BY_NO |  9 |  /* MI ONLY */ |
-
-#define DTL_PRV_RND_VOID  |  10 |    |
-
-#define DTL_PREV_ROUND_CHANGE |  11 |    |
-
-#define DTL_ERROR_CORRECT |  12 |    |
-
-**4th digit**  |
-
-#define DTL_PL_GST_CHK  |  13 |
-
-#define DTL_ITEM_SHARED |  14 |
-
-#define DTL_VOID_EDIT |  15 |
-
-#define DTL_FIXED_PRICE_COURSE |  16 |
-
-**5th digit**  |
-
-#define DTL_LI_VOID_NOT_ALLOWED |  17 |
-
-#define DTL_GROUP_START |  18 |
-
-#define DTL_ITEM_FROM_LDS |  19 |
-
-#define DTL_DEBIT_FLAG |  20 |  /* TENDERS W/ CA AUTH ONLY */ |
-
-#define DTL_REQUIRED_CONDIMENT |  20 |  /* MI ONLY CRS 5-4-98 */ |
-
-#define DTL_CA_AVAIL_BALANCE |  20 |  /* CA AUTH ONLY */ |
-
-#define DTL_CASCADE_REMOVE |  20 |  /* DSC ONLY */ |
-
-**6th digit**  |
-
-#define DTL_CUR_CNV_ACTIVE |  21 |
-
-#define DTL_CA_TAX1_EXMPT |  21 |
-
-#define DTL_BVG_AFT_PROMPT  |  21 |  /* MI ONLY */ |
-
-#define DTL_TAX_SHIFT  |  22 |  /* MI & REF ONLY */ |
-
-#define DTL_CA_TAX2_EXMPT |  22 |
-
-#define DTL_ON_HOLD |  23 |   /* MI, DSVC, TMED ONLY |
-
-#define DTL_CA_TAX3_EXMPT |  23 |
-
-#define DTL_CA_TAX4_EXMPT |  24 |
-
-#define DTL_OVRDE_TAX_W_QTY_GROUP |  24 |  /*MI Only */ |
-
-**7th digit**  |
-
-#define DTL_CA_TAX5_EXMPT |  25 |
-
-#define DTL_THAI_INVOICE  |  25 |  /* TMED ONLY */ |
-
-#define DTL_CA_TAX6_EXMPT |  26 |
-
-#define DTL_THAI_ACCOUNT  |  26 |  /* TMED ONLY */ |
-
-#define DTL_CA_TAX7_EXMPT |  27 |
-
-#define DTL_CA_TAX8_EXMPT  |  28 |
-
-**8th digit**  |
-
-#define DTL_OVERTENDER_CHG_TIP |  29 |
-
-#define DTL_SKU_ENTRY |  30 |  /* MI DTL ONLY */ |
-
-#define DTL_CC_VCHR_CANCELLED |  30 |  /* VOUCHER DTL ONLY */ |
-
-#define DTL_AUTOMATIC_DISCOUNT |  30 |  /* DSC ONLY */ |
-
-#define DTL_PRICE_OVERRIDE |  31 |
-
-#define DTL_IS_DIRECT_VOID  |  32 |  /* BPD 2-10-98 */  |
-
-**9th digit**  |
-
-#define DTL_PRICE_FROM_NLU_FILE  |  33 |  /* CRS 2-2-99 V2.60 Retail Barcode Support */  |
-
-#define DTL_PRICE_FROM_BARCODE  |  34 |  /* CRS 2-2-99 V2.60 Retail Barcode Support */ |
-
-#define DTL_BARCODE_ENTRY |  35 |  /* CRS 2-5-99 V2.60 Retail Barcode Support */ |
-
-#define DTL_PRINTED_ON_L_BY_L_RMT |  36 |  /* CPR 7-26-2000 V3.0 Combo Meals Support */ |
-
-**10th digit**  |
-
-#define DTL_NO_RPT_COUNT |  37 |  /* 3.2-SP7: Item has been split, report count must always be 0 */ |
-
-#define DTL_DISCOUNT_COUPON |  38 |  /* DSC ONLY */ |
-
-#define DTL_PRINTED_ON_L_BY_L_RCPT |  39 |
-
-#define DTL_UNUSED_40 |  40 |  /* RES 4.0: Encryption support */ |
 
 See also:
 Numdtlt
@@ -2616,15 +2591,13 @@ This system variable returns information on how a check detail item is configure
 **Type/Size**
 Variable size depends on the detail type.
 
-**Detail**  |  **Type/Size**  |
+| Detail | Type/Size |
+| --- | --- |
+| Discount | A4 |
+| Menu Item | A10 |
+| Service Charge | A4 |
+| Tender | A12 |
 
-Discount |  A4  |
-
-Menu Item |  A10  |
-
-Service Charge |  A4  |
-
-Tender  |  A12 |
 
 ### Syntax
 ```text
@@ -3209,14 +3182,6 @@ ProRate
 Guestseqnum
 Not used.
 
----
-
-## Hotspots
-
-<!-- src: System_Variable_Hotspots.htm -->
-
-Hotspots
-This is a hotspot popup window. Hotspot text also allows you to jump to other Help topics.
 
 ---
 
@@ -5510,89 +5475,56 @@ A14
 - The value returned is a string containing the hexadecimal digits representing the tender type programmed for the tender in the database (e.g., "A0409A22280000").
 - This system variable is useful for determing the characteristics of the tender. For example, a script could be designed to analyze the hexadecimal string, to determine if the Assume paid in full option is set for a particular tender. If the @Tmdtypedef variable returned the "A0409A22280000" string, the 1st digit is A or 1010 in hex. When the 1st digit is A (or 1010 in hex), the first four type definition settings would be as follows:
 
-**Type Definition**  |  **Position**  |  **Hex=Option Setting**  |
+| Type Definition | Position | Hex=Option Setting |
+| --- | --- | --- |
+| TMED_OPEN_CASH_DWR | 1 | 1=On |
+| TMED_AMT_REQD | 2 | 0=Off |
+| TMED_ASSUME_PAID_IN_FULL | 3 | 1=On |
+| TMED_ENDORSEMENT_REQD | 4 | 0=Off |
 
-TMED_OPEN_CASH_DWR |  1 |  1=On |
-
-TMED_AMT_REQD |  2 |  0=Off |
-
-TMED_ASSUME_PAID_IN_FULL |  3 |  1=On |
-
-TMED_ENDORSEMENT_REQD |  4 |  0=Off |
 
 Refer to the Type Definition Table for a listing of the type definitions and their position numbers.
 
 **Tmedtypedef Table**
 
-TMED_OPEN_CASH_DWR=1 |  TMED_ENABLE_PMS=31 |
+| Setting | Setting |
+| --- | --- |
+| TMED_OPEN_CASH_DWR=1 | TMED_ENABLE_PMS=31 |
+| TMED_AMT_REQD=2 | TMED_NO_TRLR_MULTI_ROUND=32 |
+| TMED_ASSUME_PAID_IN_FULL=3 | TMED_PMS_DO_NOT_NET_CHG=33 |
+| TMED_ENDORSEMENT_REQD=4 | TMED_PMS_OUTLET_CC=34 |
+| TMED_REF_REQD=5 | TMED_PRINT_MEMO_CHK=35 |
+| TMED_VALD_REQD=6 | TMED_PRINT_SEAT_CHK=36 |
+| TMED_PRMPT_DURING_KEYED_CA=7 | TMED_INC_SINGLE_FILTER=37 |
+| TMED_PAYMENT_IS_DEBIT_CARD=8 | TMED_PRNT_ON_RCPT_PRINTER=38 |
+| TMED_CHG_TIP_REQD=9 | TMED_PRINT_PERSONAL_CHK=39 |
+| TMED_POST_GROSS_RCPTS=10 | TMED_REQUIRES_CRDT_AUTH=40 |
+| TMED_POST_CHRGD_RCPTS=11 | TMED_CAEDC_CREDIT_FLAG=41 |
+| TMED_AUTO_SVC_EXMPT=12 | TMED_DONT_SAVE_PMS_RSP=42 |
+| TMED_RSVD_03=13 | TMED_PRINT_SHARED_CHK=43 |
+| TMED_DD_DFLT_SVC_TTL=13 | TMED_TRUMP_COUPON=44 |
+| TMED_RSVD_04=14 | TMED_WEIGHED_MOD_10_CHK=45 |
+| TMED_OVERRIDE_SIGN_OUT=14 | TMED_DONT_CHK_EXPDATE=46 |
+| TMED_PROMPT_FOR_CASHBACK=15 | TMED_PRNT_W_LOOKUP=47 |
+| TMED_PIN_REQD=16 | TMED_DONT_VAL_EXPDATE=48 |
+| TMED_HALO=17 | TMED_TIP_MUST_EXCEED_TNDR=49 |
+| TMED_CHAIN_ORDR=17 | TMED_SORT_MI_BY_SEAT=50 |
+| TMED_HALO_AMT_ENTRY=18 | TMED_PRMPT_FOR_ISSUE_NUM=51 |
+| TMED_DO_NOT_FIRE_ORDR=18 | TMED_SUSPEND_TRANS=51 |
+| TMED_EMPL_MEAL_TIP=19 | TMED_PRMPT_FOR_START_DATE=52 |
+| TMED_REPRINT_CHK=19 | TMED_PRMPT_FOR_OPT_LINE_PRNT=53 |
+| TMED_PRINT_SLS_ITMZRS=20 | TMED_CREDIT_FINAL_AMT_REQD=54 |
+| TMED_PRINT_SUM_TTLS=21 | TMED_ITEM_SHAREABLE=55 |
+| TMED_PRINT_TRAILER=22 | TMED_OB_TIPS_PAID=56 |
+| TMED_PRINT_CHK=23 | TMED_PRINT_FCR_CHECK=57 |
+| TMED_PRINT_VAT_STTL=24 | TMED_POST_FCR_CREDIT=58 |
+| TMED_REQUIRE_EXP_DATE=25 | TMED_PRINT_THAI_TAX_ACC_REC_LINE=59 |
+| TMED_ALLOW_USE_W_RECALL=26 | TMED_PRINT_THAI_TAX_INVOICE_LINE=60 |
+| TMED_ALLOW_USE_W_CUR_CNV=27 | TMED_ALLOW_WITH_EURO=61 |
+| TMED_PMS_POST_ZERO_TTL=28 | TMED_SEND_ORDER=62 |
+| TMED_PMS_2_REF_LINES=29 | TMED_OB_MASK_CC_NUMBER=63 |
+| TMED_PMS_19_REF_NUM=30 | TMED_OB_MASK_CC_EXP=64 |
 
-TMED_AMT_REQD=2 |  TMED_NO_TRLR_MULTI_ROUND=32 |
-
-TMED_ASSUME_PAID_IN_FULL=3 |  TMED_PMS_DO_NOT_NET_CHG=33 |
-
-TMED_ENDORSEMENT_REQD=4 |  TMED_PMS_OUTLET_CC=34 |
-
-TMED_REF_REQD=5 |  TMED_PRINT_MEMO_CHK=35 |
-
-TMED_VALD_REQD=6 |  TMED_PRINT_SEAT_CHK=36 |
-
-TMED_PRMPT_DURING_KEYED_CA=7 |  TMED_INC_SINGLE_FILTER=37 |
-
-TMED_PAYMENT_IS_DEBIT_CARD=8 |  TMED_PRNT_ON_RCPT_PRINTER=38 |
-
-TMED_CHG_TIP_REQD=9 |  TMED_PRINT_PERSONAL_CHK=39 |
-
-TMED_POST_GROSS_RCPTS=10 |  TMED_REQUIRES_CRDT_AUTH=40 |
-
-TMED_POST_CHRGD_RCPTS=11 |  TMED_CAEDC_CREDIT_FLAG=41 |
-
-TMED_AUTO_SVC_EXMPT=12 |  TMED_DONT_SAVE_PMS_RSP=42 |
-
-TMED_RSVD_03=13 |  TMED_PRINT_SHARED_CHK=43 |
-
-TMED_DD_DFLT_SVC_TTL=13 |  TMED_TRUMP_COUPON=44 |
-
-TMED_RSVD_04=14 |  TMED_WEIGHED_MOD_10_CHK=45 |
-
-TMED_OVERRIDE_SIGN_OUT=14 |  TMED_DONT_CHK_EXPDATE=46 |
-
-TMED_PROMPT_FOR_CASHBACK=15 |  TMED_PRNT_W_LOOKUP=47 |
-
-TMED_PIN_REQD=16 |  TMED_DONT_VAL_EXPDATE=48 |
-
-TMED_HALO=17 |  TMED_TIP_MUST_EXCEED_TNDR=49 |
-
-TMED_CHAIN_ORDR=17 |  TMED_SORT_MI_BY_SEAT=50 |
-
-TMED_HALO_AMT_ENTRY=18 |  TMED_PRMPT_FOR_ISSUE_NUM=51 |
-
-TMED_DO_NOT_FIRE_ORDR=18 |  TMED_SUSPEND_TRANS=51 |
-
-TMED_EMPL_MEAL_TIP=19 |  TMED_PRMPT_FOR_START_DATE=52 |
-
-TMED_REPRINT_CHK=19 |  TMED_PRMPT_FOR_OPT_LINE_PRNT=53 |
-
-TMED_PRINT_SLS_ITMZRS=20 |  TMED_CREDIT_FINAL_AMT_REQD=54 |
-
-TMED_PRINT_SUM_TTLS=21 |  TMED_ITEM_SHAREABLE=55 |
-
-TMED_PRINT_TRAILER=22 |  TMED_OB_TIPS_PAID=56 |
-
-TMED_PRINT_CHK=23 |  TMED_PRINT_FCR_CHECK=57 |
-
-TMED_PRINT_VAT_STTL=24 |  TMED_POST_FCR_CREDIT=58 |
-
-TMED_REQUIRE_EXP_DATE=25 |  TMED_PRINT_THAI_TAX_ACC_REC_LINE=59 |
-
-TMED_ALLOW_USE_W_RECALL=26 |  TMED_PRINT_THAI_TAX_INVOICE_LINE=60 |
-
-TMED_ALLOW_USE_W_CUR_CNV=27 |  TMED_ALLOW_WITH_EURO=61 |
-
-TMED_PMS_POST_ZERO_TTL=28 |  TMED_SEND_ORDER=62 |
-
-TMED_PMS_2_REF_LINES=29 |  TMED_OB_MASK_CC_NUMBER=63 |
-
-TMED_PMS_19_REF_NUM=30 |  TMED_OB_MASK_CC_EXP=64 |
 
 ---
 
@@ -5873,35 +5805,23 @@ Various (see Usage)
 
 **Transaction Detail Table**
 
-Field/Type and Size |  Description |
+| Field/Type and Size | Description |
+| --- | --- |
+| Detail Type/A1 | Indicates type of detail entry: |
+|  | I = Check Information Detail |
+|  | M = Menu Item |
+|  | D = Discount |
+|  | S = Service Charge |
+|  | T = Tender/Media |
+|  | R = Reference Number |
+| Status/A8 | Check Detail Status Flag |
+| Number/N7 | Object number; set to 0 for reference numbers and check information detail. |
+| Quantity/N5 | Quantity; set to 0 for reference numbers and check information detail. |
+| Main Sales Level/N1 | Main sales level (between 1 and 4); set to 0 for reference numbers and check information detail. |
+| Sub Sales Level/N1 | Sub sales level (between 1 and 4); set to 0 for reference numbers and check information detail. |
+| Total/$12 | Total; set to 0 for reference numbers and check information detail. |
+| Name/A24 | Contains the detail's name (menu item, discount, etc.). For reference numbers; this contains the actual reference number. |
 
-Detail Type/A1 |  Indicates type of detail entry: |
-
-I = Check Information Detail |
-
-M = Menu Item |
-
-D = Discount |
-
-S = Service Charge |
-
-T = Tender/Media |
-
-R = Reference Number |
-
-Status/A8 |  Check Detail Status Flag |
-
-Number/N7 |  Object number; set to 0 for reference numbers and check information detail. |
-
-Quantity/N5 |  Quantity; set to 0 for reference numbers and check information detail. |
-
-Main Sales Level/N1 |  Main sales level (between 1 and 4); set to 0 for reference numbers and check information detail. |
-
-Sub Sales Level/N1 |  Sub sales level (between 1 and 4); set to 0 for reference numbers and check information detail. |
-
-Total/$12 |  Total; set to 0 for reference numbers and check information detail. |
-
-Name/A24 |  Contains the detail's name (menu item, discount, etc.). For reference numbers; this contains the actual reference number. |
 
 See also:
 
@@ -6525,7 +6445,7 @@ N1
 
 The following example illustrates opening a file for read access on a PCWS, HHT, or WS4 Device:
 
-\\ Win32 Device
+`\\` Win32 Device
 ```isl
 if @WSType = 1
   Tmed_def_filename = "…\etc\tmed_def.cfg"

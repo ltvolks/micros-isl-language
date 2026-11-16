@@ -1,7 +1,12 @@
 # Micros ISL
 
-Sublime Text support for MICROS RES 3700 ISL (SIM scripts): syntax highlighting,
-snippets, a symbol list, auto-indent rules, a lint build system and a formatter.
+This repository contains tooling for developers working with the Micros Interactive Scripting Language (ISL) and System Interface Module (SIM).
+
+- Sublime Text Package with support for MICROS RES 3700 ISL (SIM scripts): syntax highlighting, snippets, a symbol list, auto-indent rules, a lint build system and a formatter.
+- Claude Code skill: Write, review and debug MICROS ISL (SIM scripting) for RES 3700. Use for .isl files, SIM events, TxMsg/RxMsg interfaces, ISL errors.
+- ISL Reference hyperlinked and syntax-highlighted documentation buildable as Sphinx HTML site.
+- Standalone Python script for ISL lint and formatting.
+
 
 ## Installing
 
@@ -42,6 +47,24 @@ uv add --dev "isl-language @ git+<repo-url>@v1.0.0"
 uv run isl lint isl/*.isl
 ```
 
+**Documentation**
+
+Sphinx docs can be built to provide a hyperlinked, syntax-highlighted site containing a narrative Guide and detailed ISL reference. The source documents are markdown in the `\skills\micros-isl-language\isl-reference` directory
+
+The Guide is derived and reformatted from System Interface Module (SIM) Companion Guide, 3rd edition 2003. The reference is derived from RES 3700 SIM Online Help (CHM).
+
+To build the docs:
+
+```bash
+pip install -r docs/requirements-docs.txt
+make -C docs html          # open docs/_build/html/index.html
+```
+
+Other Sphinx projects can link to it with intersphinx: point a mapping at the built site (a path or
+URL) and use either std labels, `` :ref:`TxMsg <isl:cmd-txmsg>` ``, or, with `docs/_ext` on `sys.path`
+and the `isl_domain` extension enabled, `` :isl:cmd:`isl:TxMsg` ``, `` :isl:sysvar:`isl:Cknum` ``,
+`` :isl:event:`isl:Inq` `` and `` :isl:fn:`isl:Mid` ``.
+
 ## Features
 
 - **Symbol list** (`Cmd+R`): events, inquires and subs. Inquires with a
@@ -69,23 +92,6 @@ tools/isl.py lint [--fix] [--format json] [--strict] [--lines A-B] FILE.isl
 Set `isl_tools_path` / `isl_python` in `ISL.sublime-settings` to use another
 copy of the tools or interpreter.
 
-## Documentation
-
-A hyperlinked, syntax-highlighted site (the Guide split into chapters, plus every command, event,
-function, system variable, specifier, key and error message) is built with Sphinx from the markdown in
-`skills/micros-isl-language/isl-reference/`. The markdown is the single source; the reStructuredText is
-generated (`docs/_generated/`, git-ignored). The docs are not part of the Sublime package (`docs/` is
-`export-ignore`d, so Package Control does not download it).
-
-```bash
-pip install -r docs/requirements-docs.txt
-make -C docs html          # open docs/_build/html/index.html
-```
-
-Other Sphinx projects can link to it with intersphinx: point a mapping at the built site (a path or
-URL) and use either std labels, `` :ref:`TxMsg <isl:cmd-txmsg>` ``, or, with `docs/_ext` on `sys.path`
-and the `isl_domain` extension enabled, `` :isl:cmd:`isl:TxMsg` ``, `` :isl:sysvar:`isl:Cknum` ``,
-`` :isl:event:`isl:Inq` `` and `` :isl:fn:`isl:Mid` ``.
 
 ## Development
 
@@ -96,7 +102,13 @@ generated from the linter's vocabulary; do not edit them by hand:
 python3 tools/gen_isl_grammar.py
 ```
 
-Tests: `python3 -m pytest tests`.
+Tests need pytest, and the docs tests also need the docs requirements.
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -e '.[dev]' -r docs/requirements-docs.txt
+.venv/bin/python -m pytest tests
+```
 
 Tag releases as `v1.0.0` etc. so Package Control installs versions.
 
