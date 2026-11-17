@@ -53,8 +53,9 @@ Sphinx docs can be built to provide a hyperlinked, syntax-highlighted site conta
 
 The Guide is derived and reformatted from System Interface Module (SIM) Companion Guide, 3rd edition 2003. The reference is derived from RES 3700 SIM Online Help (CHM).
 
-The lint rule pages in `tools/lint_rules` are included through the `docs/lint_rules` symlink. The site is
-published to GitHub Pages by `.github/workflows/docs.yml` on every push to `main`.
+The lint rule pages in `tools/lint_rules` are included through the `docs/lint_rules` symlink.
+
+The site is published to GitHub Pages by `.github/workflows/docs.yml` on every push to `main`. https://ltvolks.github.io/micros-isl-language
 
 To build the docs:
 
@@ -119,7 +120,11 @@ python3 -m venv .venv
 .venv/bin/python -m pytest tests
 ```
 
-Tag releases as `v1.0.0` etc. so Package Control installs versions.
+To update the SublimeText package:
+
+- Tag releases as `v1.0.0` etc. so Package Control installs versions.
+- Add a release note in `messages/1.0.0.txt`
+- Update `messages.json`
 
 ## Style Guide
 

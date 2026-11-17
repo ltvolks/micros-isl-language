@@ -1,0 +1,9 @@
+ISL 1.1.0
+=========
+
+Enhanced Linting - 2026-11-16
+
+The linter adds 28 new rules derived from the Micros RES SIM Companion Guide and 3700 SIM online help reference.
+
+An ISL reference guide and lint rules are now published at
+https://ltvolks.github.io/micros-isl-language/
