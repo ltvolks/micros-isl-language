@@ -16,3 +16,9 @@ and so do the names used in examples.
    :caption: Reference
 
    reference_index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Linter
+
+   lint_index

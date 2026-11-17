@@ -17,6 +17,7 @@ extensions = ['isl_lexer', 'isl_domain', 'sphinxcontrib.mermaid', 'myst_parser']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 myst_fence_as_directive = ['mermaid']
+myst_heading_anchors = 4
 smartquotes = False         # keep "If...EndIf" and quotes in code-like prose exactly as written
 templates_path = []
 html_static_path = ['_static']

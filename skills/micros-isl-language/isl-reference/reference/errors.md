@@ -150,6 +150,11 @@ window 10, 20
 display 11, 1, "Line" //Row range is 1-10
 display 1, 40, "Line" //Column range is 1-20
 ```
+
+---
+
+## Divide by zero
+
 Divide by zero
 This message occurs if an attempt was made to divide a numeric value by 0.
 ```isl
@@ -219,6 +224,10 @@ This message occurs if an overly complex expression was specified on the command
 i = (((((((((((((((((( a + 5 ))))))))))))))))))
 ```
 
+---
+
+## Event inside procedure
+
 Event inside procedure
 This message occurs if an Event command was encountered within a subroutine.
 ```isl
@@ -230,13 +239,21 @@ event inq : 1 //Event within subroutine
 endsub
 ```
 
+---
+
+## Event type must be word
+
 Event type must be word
 This message occurs if an invalid Event type was specified in the Event line. There are four types of Events: Inquire, Tmed, RxMsg, and Final_Tender.
 ```isl
 event 123 : 377 //No such event type as 123
+```
+
+---
+
+## Exceeded max array or variable size
 
 Exceeded max array or variable size
-```
 This message occurs if the array_size or variable_size exceeded the system maximum size of 32768 bytes.
 ```isl
 var array[100000] : N5

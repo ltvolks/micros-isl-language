@@ -329,8 +329,28 @@ def _ancestors(node):
         node = node.parent
 
 
+REFERENCE_PREFIX = '../../skills/micros-isl-language/isl-reference/'
+REPO_FILE = 'https://github.com/ltvolks/micros-isl-language/blob/main/'
+
+
+def rule_links(app, docname, source):
+    """source-read: the lint rule pages are written for GitHub (``../../skills/…`` and ``L011.md``).
+
+    ``docs/lint_rules``, ``docs/guide`` and ``docs/reference`` are symlinks, and MyST resolves
+    document links through them to paths outside the source tree. Plain HTML links between the
+    sibling pages avoid that; the heading anchors are the same GitHub-style slugs
+    (``myst_heading_anchors``).
+    """
+    if docname.startswith('lint_rules/'):
+        text = source[0].replace(f']({REFERENCE_PREFIX}', '](../')
+        text = text.replace('](../../README.md', f']({REPO_FILE}README.md')
+        source[0] = re.sub(r'\[((?:[^\[\]]|\[[^\]]*\])+)\]\(((?:\.\./(?:guide|reference)/)?[\w-]+)\.md(#[^)]*)?\)',
+                           r'<a href="\2.html\3">\1</a>', text)
+
+
 def setup(app):
     app.add_domain(IslDomain)
+    app.connect('source-read', rule_links)
     app.connect('doctree-read', read_reference)
     app.connect('doctree-resolved', autolink)
     return {'parallel_read_safe': False, 'version': '1.0'}

@@ -63,7 +63,7 @@ def test_entry_counts(built):
     for objtype, _name in app.env.get_domain('isl').data['objects']:
         counts[objtype] = counts.get(objtype, 0) + 1
     assert counts == {'command': 101, 'event': 31, 'function': 28, 'sysvar': 221, 'specifier': 19,
-                      'error': 92, 'key': 13}
+                      'error': 96, 'key': 13}
 
 
 def test_markdown_tables_render_with_headers(built):
@@ -118,3 +118,12 @@ def test_commands_by_category_index(built):
         assert f'>{category}<' in block.replace('&amp;', '&') or category in block
     assert 'href="#cmd-txmsg"' in block
     assert block.count('class="reference internal"') == 94          # every listed name is linked
+
+
+def test_lint_rule_pages_are_in_the_site(built):
+    _, out = built
+    index = (out / 'lint_rules' / 'index.html').read_text(encoding='utf-8')
+    assert 'L001.html' in index and 'L037.html' in index
+    page = (out / 'lint_rules' / 'L011.html').read_text(encoding='utf-8')
+    assert '../guide/chapter-4.html#data-types' in page          # source link into the Guide
+    assert 'isl-autolink' in page                                # example code links to the reference

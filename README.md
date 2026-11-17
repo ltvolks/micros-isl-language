@@ -53,6 +53,9 @@ Sphinx docs can be built to provide a hyperlinked, syntax-highlighted site conta
 
 The Guide is derived and reformatted from System Interface Module (SIM) Companion Guide, 3rd edition 2003. The reference is derived from RES 3700 SIM Online Help (CHM).
 
+The lint rule pages in `tools/lint_rules` are included through the `docs/lint_rules` symlink. The site is
+published to GitHub Pages by `.github/workflows/docs.yml` on every push to `main`.
+
 To build the docs:
 
 ```bash
@@ -91,6 +94,12 @@ tools/isl.py lint [--fix] [--format json] [--strict] [--lines A-B] FILE.isl
 
 Set `isl_tools_path` / `isl_python` in `ISL.sublime-settings` to use another
 copy of the tools or interpreter.
+
+### Lint rules
+
+Every finding carries a rule code (`L001` ... `L037`). [tools/lint_rules](tools/lint_rules/index.md) has one
+page per rule: what it checks, why (linked to the Guide or Reference passage it comes from), and a failing and
+a passing example. The pages are part of the Sphinx site and are not shipped in the Sublime package.
 
 
 ## Development
