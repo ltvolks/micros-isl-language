@@ -1,0 +1,59 @@
+name: Docs
+
+# Only when something the site is built from changes: the docs project, the Guide and Reference
+# markdown, the lint rule pages, the vocabulary the lexer reads (tools/isl.py), or this workflow.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'skills/micros-isl-language/isl-reference/**'
+      - 'tools/lint_rules/**'
+      - 'tools/isl.py'
+      - 'tests/test_docs.py'
+      - 'tests/test_lint_rules.py'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'skills/micros-isl-language/isl-reference/**'
+      - 'tools/lint_rules/**'
+      - 'tools/isl.py'
+      - 'tests/test_docs.py'
+      - 'tests/test_lint_rules.py'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: pip install -e '.[dev]' -r docs/requirements-docs.txt
+      - name: Test
+        run: python -m pytest tests
+
+  pages:
+    # Publishes with GitHub Pages' own deployment (no gh-pages branch). One-time setup:
+    # repository Settings > Pages > Build and deployment > Source: GitHub Actions.
+    if: github.event_name != 'pull_request'
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - id: deployment
+        uses: sphinx-notes/pages@v3
+        with:
+          documentation_path: docs
+          requirements_path: docs/requirements-docs.txt
+          python_version: '3.12'
+          sphinx_build_options: -W --keep-going
